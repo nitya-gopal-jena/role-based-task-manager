@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+.register-container {
+    position: fixed;
+    background: #210148;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+}
+
+.register-box {
+    background: #1e0439;
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(255, 255, 255, 0.1);
+    text-align: center;
+    width: 450px;
+    height: auto;
+    padding: 30px;
+    align-items: center;
+    justify-content: center;
+    margin: 50px 550px;
+}
+
+.register-title {
+    color: #ffffff;
+    font-size: 22px;
+    font-family: 'Times New Roman', Times, serif;
+    margin-bottom: 5px;
+}
+
+.register-description {
+    color: rgb(220, 215, 215);
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 5px 10px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid black;
+    color: black;
+    border-radius: 5px;
+    font-size: 15px;
+    margin-top: 12px;
+    font-family: "Poppins", serif;
+    font-weight: 300;
+    font-style: normal;
+
+}
+
+
+#choose-role {
+    color: #b6b5b5;
+    float: left;
+    margin: 10px 0px 10px;
+}
+
+#role {
+    width: 100%;
+    padding: 12px;
+    border-radius: 5px;
+    font-weight: 400;
+    font-size: 15px;
+}
+
+#role>.option-value {
+    padding: 10px;
+    font-size: 15px;
+    background-color: #ffffff;
+    color: #333;
+}
+
+#role>.option-value:hover {
+    background-color: #e0e0e0;
+}
+
+
+
+.register-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 12px;
+    border-radius: 5px;
+    border: none;
+    color: #ffffff;
+    font-size: 16px;
+    background: #7712cf;
+    transition: all 0.5s ease;
+    font-family: "Poppins", serif;
+    font-weight: 400;
+    font-style: normal;
+    cursor: pointer;
+}
+
+.register-btn:hover {
+    background: #9d02fe;
+}
+
+.login-link {
+    color: #ffffff;
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+.login-link a {
+    color: #9c17f5;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 6px;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
