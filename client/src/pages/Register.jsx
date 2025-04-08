@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const Register = () => {
   const [formData, setFormData] = useState({ name: '', username: '', email: '', password: '' });
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     // setFormData({ ...formData, [e.target.name]: e.target });
@@ -25,9 +25,9 @@ const Register = () => {
 
       // setFormData({ name: '', username: '', email: '', password: '' })
       alert(response?.data?.messgae);
-      navigate("/")
+      navigate('/');
     } catch (error) {
-      alert(error.response?.data?.message || 'Signup failed!');
+      alert(error.response?.data?.message || 'Registration failed!');
     }
   };
   return (
