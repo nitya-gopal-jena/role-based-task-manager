@@ -10,7 +10,7 @@ import taskRoutes from './routes/taskRoutes.js'
 const app = express();
 
 // Middlewares API 
-app.use(cors({ origin:"http://localhost:5173" }))
+app.use(cors({ origin: "http://localhost:5173" })) // Integration of front-end to back-end
 app.use(express.json())
 
 

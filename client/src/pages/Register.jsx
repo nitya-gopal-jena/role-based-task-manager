@@ -1,14 +1,14 @@
 import { React, useState } from 'react';
 import '../styles/register.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Register = () => {
   const [formData, setFormData] = useState({ name: '', username: '', email: '', password: '' });
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     // setFormData({ ...formData, [e.target.name]: e.target });
-
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -24,8 +24,8 @@ const Register = () => {
       const response = await axios.post('http://localhost:5000/api/users/register', formData);
 
       // setFormData({ name: '', username: '', email: '', password: '' })
-
       alert(response?.data?.messgae);
+      navigate("/")
     } catch (error) {
       alert(error.response?.data?.message || 'Signup failed!');
     }
