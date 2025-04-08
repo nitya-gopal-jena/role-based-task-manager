@@ -1,6 +1,6 @@
 .header {
-    background: rgba(255, 255, 255, 0.9);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    background: rgba(18, 18, 18, 0.95);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     padding: 15px 0;
     position: sticky;
     top: 0;
@@ -23,14 +23,16 @@
 
 .logo-text {
     font-size: 24px;
-    font-weight:900;
-    background: linear-gradient(90deg, #008000, #00a86b);
+    font-weight: 900;
+    background: linear-gradient(90deg, #d3d3d3, #e7eae9);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    font-family:Georgia, 'Times New Roman', Times, serif;
+    font-family: Georgia, 'Times New Roman', Times, serif;
 
 }
+
+
 
 .nav-menu {
     display: flex;
@@ -40,7 +42,6 @@
 .nav-link {
     /* color: rgba(255, 255, 255, 0.1); */
     text-decoration: none;
-    padding: 8px 16px;
     border-radius: 5px;
     transition: all 0.3s ease;
     color: #000000;
@@ -48,10 +49,6 @@
 
 }
 
-.nav-link:hover {
-    color: #000000;
-    background: rgba(0, 0, 0, 0.1);
-}
 
 .auth-links {
     display: flex;
@@ -59,12 +56,84 @@
     align-items: center;
 }
 
-.nav-link.register {
+
+.nav-link .dashboard {
     background: #289ca7;
+    margin-right: 10px;
+    text-align: center;
+    text-decoration: none;
     color: white;
+    padding: 8px 16px;
+    border-radius: 5px;
     transition: all 0.6s ease;
 }
 
-.nav-link.register:hover {
+.nav-link .dashboard:hover {
     background: #24b15c;
+}
+
+
+
+
+/* user profile icon wiith drop down features  */
+.user-dropdown {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: rgb(255, 254, 254);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    position: absolute;
+    align-items: center;
+    text-align: left;
+    margin-top: 12px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    background: #ffffff;
+    border-radius: 5px;
+    padding: 10px 0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    min-width: 150px
+}
+
+.dropdown-menu>.edit-profile {
+    text-decoration: none;
+    color: rgb(59, 58, 58);
+    font-weight: 600;
+    padding: 8px 12px;
+    display: block;
+    width: 100%;
+}
+
+
+.dropdown-menu button {
+    color: rgb(59, 58, 58);
+    font-weight: 600;
+    background: none;
+    border: none;
+    width: 100%;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    text-align: left;
+    display: block;
+}
+
+.dropdown-menu>button:hover {
+    color: black;
+}
+
+.dropdown-menu>.edit-profile:hover {
+    color: black;
 }
