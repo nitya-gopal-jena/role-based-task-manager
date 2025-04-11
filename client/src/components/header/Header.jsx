@@ -1,12 +1,22 @@
 import { React, useState, useEffect, useRef } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
-import { Link , useLocation} from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import '../../styles/header.css';
 
 const Header = () => {
+  const [username, setUsername] = useState(localStorage.getItem('username') || '');
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null); // Reference to the dropdown
-  const location = useLocation()
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Get and store username from localStorage
+  useEffect(() => {
+    const storedUser = localStorage.getItem('username');
+    if (storedUser) {
+      setUsername(storedUser);
+    }
+  }, []);
 
   // Close dropdown when clicking outside
   const handleClickOutside = (event) => {
@@ -23,14 +33,19 @@ const Header = () => {
     };
   }, []);
 
-  
   useEffect(() => {
     if (location.pathname === '/edit-profile') {
-      setDropdownOpen(false); 
+      setDropdownOpen(false);
     }
   }, [location]);
 
-
+  // User logout function logic
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    setUsername('');
+    navigate('/');
+  };
 
   return (
     <>
@@ -42,17 +57,17 @@ const Header = () => {
 
           <nav className='nav-menu'>
             <div className='auth-links'>
-              <div className="nav-link">
-              <Link to='/dashboard' className='dashboard'>
-                Dashboard
-              </Link>
-          </div>
+              <div className='nav-link'>
+                <Link to='/dashboard' className='dashboard'>
+                  Dashboard
+                </Link>
+              </div>
 
               {/* Create a user profile icon with drop down features  */}
               <div className='user-dropdown' ref={dropdownRef}>
                 <div className='user-info' onClick={() => setDropdownOpen(!dropdownOpen)}>
                   <FaUserCircle size={30} />
-                  <span>Username</span>
+                  <span>{username}</span>
                 </div>
 
                 {dropdownOpen && (
@@ -60,7 +75,9 @@ const Header = () => {
                     <Link to='/edit-profile' className='edit-profile'>
                       Edit Profile
                     </Link>
-                    <button className='logout'>Logout</button>
+                    <button className='logout' onClick={handleLogout}>
+                      Logout
+                    </button>
                   </div>
                 )}
               </div>
