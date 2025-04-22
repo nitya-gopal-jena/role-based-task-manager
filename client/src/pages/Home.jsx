@@ -7,7 +7,7 @@ const Home = () => {
       <div className='home-container'>
         {/* Hero Section */}
         <div className='hero-content'>
-          <h1 className='hero-title'>
+          {/* <h1 className='hero-title'>
             {' '}
             Welcome to <span className='gradient-text'>TaskManager</span>
           </h1>
@@ -20,7 +20,7 @@ const Home = () => {
             <Link to='/login' className='hero-button secondary'>
               Sign In
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

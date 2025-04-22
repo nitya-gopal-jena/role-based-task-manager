@@ -1,0 +1,98 @@
+.profile-wrapper {
+    position: fixed;
+    background: #210148;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+}
+
+.profile-container {
+    background: #1e0439;
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(255, 255, 255, 0.1);
+    text-align: center;
+    width: 700px;
+    height: auto;
+    padding: 30px;
+    align-items: center;
+    justify-content: center;
+    margin: 100px 450px;
+}
+
+h2 {
+    color: #ffffff;
+}
+
+/* .profile-photo-wrapper {
+    text-align: center;
+    margin-right: 25px;
+    float: left;
+    margin-top: 30px;
+}
+
+.profile-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid #ccc;
+}
+
+.upload-text {
+    font-size: 14px;
+    color: #666;
+    margin-top: 8px;
+} */
+
+
+
+.btn-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.update-btn {
+    padding: 12px;
+    color: #fff;
+    background: #6809ba;
+    margin-top: 15px;
+    font-size: 15px;
+    font-weight: 500;
+    border: none;
+    width: 200px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.update-btn:hover {
+    background: #720ab3;
+    transform: translateY(-1px);
+    transition: all 0.3s ease;
+}
+
+
+.change-password {
+    padding: 12px;
+    color: #fff;
+    background: #6809ba;
+    margin-top: 15px;
+    font-size: 15px;
+    font-weight: 500;
+    width: 200px;
+    border: none;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.change-password:hover {
+    background: #720ab3;
+    transform: translateY(-1px);
+    transition: all 0.3s ease;
+}

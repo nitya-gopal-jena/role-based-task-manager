@@ -1,5 +1,7 @@
 import { React, useState, useEffect, useRef } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
+import { FaUserEdit } from 'react-icons/fa';
+import { IoLogOut } from "react-icons/io5";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import '../../styles/header.css';
 
@@ -47,6 +49,11 @@ const Header = () => {
     navigate('/');
   };
 
+  // User edit-profile function logic
+  const editProfile = () => {
+    navigate('/edit-profile');
+  };
+
   return (
     <>
       <header className='header'>
@@ -58,8 +65,20 @@ const Header = () => {
           <nav className='nav-menu'>
             <div className='auth-links'>
               <div className='nav-link'>
-                <Link to='/dashboard' className='dashboard'>
+                {/* <Link to='/dashboard' className='dashboard'>
                   Dashboard
+                </Link> */}
+                {/* <Link to='/users' className='links-group'>
+                Users
+                </Link> */}
+                {/* <Link to='/admin' className='links-group'>
+                  Admin
+                </Link> */}
+                <Link to='/task' className='links-group'>
+                  View Task
+                </Link>
+                <Link to='/about' className='links-group'>
+                  About
                 </Link>
               </div>
 
@@ -72,11 +91,11 @@ const Header = () => {
 
                 {dropdownOpen && (
                   <div className='dropdown-menu'>
-                    <Link to='/edit-profile' className='edit-profile'>
-                      Edit Profile
-                    </Link>
+                    <button className='edit-profile' onClick={editProfile}>
+                      <FaUserEdit className='edit-profile-icon' /> Edit Profile
+                    </button>
                     <button className='logout' onClick={handleLogout}>
-                      Logout
+                      <IoLogOut className='logout-icon' /> Logout
                     </button>
                   </div>
                 )}

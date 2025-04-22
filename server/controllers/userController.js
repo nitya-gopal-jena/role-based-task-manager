@@ -68,16 +68,15 @@ export const getuser = async (req, res) => {
 };
 
 
-// Get all task 
-export const allUser = async (req, res) => {
+// Get all users
+export const allusers = async (req, res) => {
     try {
-        const alluser = await User.find();
-        if (alluser) {
-            res.status(200).json({ message: 'success', alluser });
+        const user = await User.find();
+        if (user) {
+            return res.status(200).json({ message: 'success', user });
         }
-       
     } catch (error) {
-        res.status(500).json({ message: 'error', msg:error.messgae });
+        return res.status(500).json({ messgae: 'Something went wrong when get user !' });
     }
 };
 
@@ -94,19 +93,18 @@ export const updateUserProfile = async (req, res) => {
         // Verify token and extract user ID
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const userIdFromToken = decoded.id;
+        if (!decoded || !decoded.id) {
+            return res.status(401).json({ message: "Unauthorized: Invalid token !" })
+        }
 
-        // Extract the user Id from the database
-        const userIdFromDatabase = req.params.id;
-
-        // Find the user in the database
-        const user = await User.findById(userIdFromDatabase);
+        // Find the user in the database from token id
+        const user = await User.findById(userIdFromToken);
         if (!user) {
             return res.status(404).json({ messgae: 'user not found!' });
         }
 
-
         // Ensure only user can update their own profile
-        if (userIdFromToken !== userIdFromDatabase) {
+        if (!userIdFromToken) {
             return res.status(403).json({ messgae: 'Forbidden: You can only update your own profile ' });
         }
 
@@ -120,13 +118,12 @@ export const updateUserProfile = async (req, res) => {
         };
 
         // If a new password is provided, hash it and update
-
         if (req.body.password) {
             updateFields.password = await bcrypt.hash(req.body.password, 10);
         }
 
         // Update user profile
-        const updatedUser = await User.findByIdAndUpdate(userIdFromDatabase, updateFields, {
+        const updatedUser = await User.findByIdAndUpdate(userIdFromToken, updateFields, {
             new: true,
             runValidators: true,
         });
@@ -150,3 +147,34 @@ export const deleteProfile = async (req, res) => {
         return res.status(500).json({ message: 'Smoething wrong when delete !' });
     }
 };
+
+
+// Get user profile details
+export const getUserProfile = async (req, res) => {
+    try {
+        // Extract token from headers
+        const token = req.headers.authorization?.split(' ')[1];
+        if (!token) {
+            return res.status(401).json({ message: 'Unauthorized: Token not provided' });
+        }
+
+        // Verify token and extract user ID
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const userIdFromToken = decoded.id;
+        if (!decoded || !decoded.id) {
+            return res.status(401).json({ message: "Unauthorized: Invalid token !" })
+        }
+
+        // Find the user details in the database
+        const user = await User.findById(userIdFromToken);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found!' });
+        }
+
+        // Return the user's profile information
+        return res.status(200).json({ message: 'Profile fetched successfully', user });
+
+    } catch (error) {
+        return res.status(500).json({ message: 'Something went wrong when fetching the profile!' })
+    }
+}
