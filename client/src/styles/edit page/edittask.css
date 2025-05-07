@@ -1,39 +1,45 @@
-.profile-wrapper {
-    position: fixed;
-    background: #210148;
-    width: 100%;
-    height: 100%;
-    top: 0px;
-    left: 0px;
+.task-wrapper {
+    overflow: hidden;
 }
 
-.profile-container {
+.task-container {
+    position: sticky;
     background: #1e0439;
     backdrop-filter: blur(10px);
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 5px 10px rgba(255, 255, 255, 0.1);
     text-align: center;
-    width: 700px;
+    width: 40rem;
     height: auto;
-    padding: 30px;
     align-items: center;
     justify-content: center;
-    margin: 120px 440px;
 }
 
-.update-title{
-    color: #ffffff;
+
+.form-group {
+    display: flex;
+    flex-direction: column;
     margin-bottom: 15px;
+    align-items: flex-start;
 }
 
-.update-para{
-    color: white;
-    margin-bottom: 5px;
-    font-size: 15px;
+.form-group label {
+    color: #e0def4;
+    font-weight: 500;
+    font-size: 14px;
+    margin-bottom: 6px;
 }
 
-.save-btn {
+#dropdown{
+    padding: 15px;
+    width: 100%;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+.task-save-btn {
     padding: 12px;
     color: #fff;
     background: #6809ba;
@@ -46,9 +52,9 @@
     transition: background-color 0.3s ease;
 }
 
-.save-btn:hover {
+
+.task-save-btn:hover {
     background: #720ab3;
     transform: translateY(-1px);
     transition: all 0.3s ease;
 }
-

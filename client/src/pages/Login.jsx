@@ -1,12 +1,15 @@
 import { React, useState } from 'react';
 import '../styles/login.css';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
 import axios from 'axios';
 
 const Login = () => {
   const [email, setUserEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate()
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -14,14 +17,23 @@ const Login = () => {
     try {
       const response = await axios.post('http://localhost:5000/api/users/login', { email, password });
 
-      // Store login details in local storage 
-      localStorage.setItem('token', response.data.token)
-      localStorage.setItem('username', response.data.username)
-      
-      alert(response?.data?.messgae);
-      navigate("/home")
+      // Extract role from response
+      const { token, username, role } = response.data;
+   
+      // Store login details in local storage
+      localStorage.setItem('token', token);
+      localStorage.setItem('username', username);
+      localStorage.setItem('role', role);
+
+      toast.success(response?.data?.message);
+
+      if (role === 'admin') {
+        navigate('/dashboard');
+      } else {
+        navigate('/home');
+      }
     } catch (error) {
-      alert(error.response?.data?.message || 'Login failed!');
+      toast.error(error.response?.data?.message || 'Login failed!');
     }
   };
 
@@ -37,7 +49,7 @@ const Login = () => {
               <tbody>
                 <tr>
                   <td>
-                    <input type='text' placeholder='Enter Email' id='username' onChange={(e) => setUserEmail(e.target.value)} required />
+                    <input type='text' placeholder='Enter email or username' id='username' onChange={(e) => setUserEmail(e.target.value)} required />
                   </td>
                 </tr>
 

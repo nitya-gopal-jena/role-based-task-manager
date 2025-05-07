@@ -1,17 +1,20 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/layout/Layout';
-import Header from './components/header/Header';
-import Footer from './components/footer/Footer';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Home from './pages/Home';
-import EditProfile from './pages/EditProfile';
-import ChangePassword from './pages/ChangePassword';
-import UpdateProfile from './pages/UpdateProfile';
+import EditProfile from './pages/users/EditProfile';
+import ChangePassword from './pages/users/ChangePassword';
+import UpdateProfile from './pages/users/UpdateProfile';
 import PrivateRoute from './components/private/PrivateRoute';
-import Dashboard from './pages/admin/Dashboard';
-import UserList from './pages/users list/UserList';
+import PrivateAdminRoute from './components/private/PrivateAdminRoue';
+import Dashboard from './pages/admin/DashBoard';
+import UserList from './pages/users/UserList';
+import TasksList from './pages/tasks/TasksList';
+import EditTask from './pages/edit page/EditTask';
+import AddTask from './pages/tasks/AddTask';
+import UpdateUserProfile from './pages/users/UpdateUserProfile';
 
 import './styles/app.css';
 
@@ -58,8 +61,64 @@ const App = () => {
                   }
                 />
 
-                <Route path='/admin/dashboard' element={<Dashboard />} />
-                <Route path='/admin/dashboard/all-users-list' element={<Dashboard />} />
+                <Route
+                  path='/edit-user/:userId'
+                  element={
+                    <PrivateRoute>
+                      <UpdateUserProfile />
+                    </PrivateRoute>
+                  }
+                />
+
+                <Route
+                  path='/dashboard'
+                  element={
+                    <PrivateAdminRoute>
+                      <Dashboard />
+                    </PrivateAdminRoute>
+                  }
+                />
+                <Route
+                  path='/all-users-list'
+                  element={
+                    <PrivateAdminRoute>
+                      <UserList />
+                    </PrivateAdminRoute>
+                  }
+                />
+                <Route
+                  path='/all-tasks-list'
+                  element={
+                    <PrivateAdminRoute>
+                      <TasksList showUserTasks={false} />
+                    </PrivateAdminRoute>
+                  }
+                />
+                 <Route
+                  path='/my-tasks-list'
+                  element={
+                    <PrivateAdminRoute>
+                      <TasksList showUserTasks={true} />
+                    </PrivateAdminRoute>
+                  }
+                />
+
+                <Route
+                  path='/edit-task/:taskId'
+                  element={
+                    <PrivateAdminRoute>
+                      <EditTask />
+                    </PrivateAdminRoute>
+                  }
+                />
+                <Route
+                  path='/add-task'
+                  element={
+                    <PrivateAdminRoute>
+                      <AddTask />
+                    </PrivateAdminRoute>
+                  }
+                />
               </Routes>
             </div>
           </div>

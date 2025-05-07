@@ -19,7 +19,7 @@ body {
 }
 
 
-.user-table-container {
+.task-table-container {
     background-color: #ffffff;
     padding: 1rem;
     border-radius: 1rem;
@@ -38,7 +38,7 @@ body {
     transition: box-shadow 0.3s ease;
 }
 
-.users-title {
+.task-title {
     text-align: center;
     font-size: 1.5rem;
     text-transform: uppercase;
@@ -46,7 +46,7 @@ body {
     margin-bottom: 0.2rem;
 }
 
-.users-no {
+.task-no {
     font-size: 1rem;
     font-weight: 500;
 }
@@ -60,13 +60,13 @@ hr {
 
 
 
-.user-table {
+.task-table {
     width: 100%;
     border-collapse: collapse;
     min-width: 800px;
 }
 
-.user-table thead th {
+.task-table thead th {
     background-color: #261641;
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
     color: white;
@@ -75,27 +75,53 @@ hr {
     z-index: 1;
 }
 
-.user-table th {
+.task-table th {
     padding: 0.58rem;
     text-align: center;
     border: 1px solid #e5e7eb;
 }
 
-.user-table td {
-    padding: 0.60rem;
+.task-table td {
+    padding: 1rem;
     text-align: center;
     border: 1px solid #e5e7eb;
 }
 
-.user-table tbody tr:nth-child(even) {
+.task-table td:first-child,
+.task-table th:first-child {
+    width: 60px;
+    min-width: 60px;
+    max-width: 60px;
+}
+
+.task-table tbody tr:nth-child(even) {
     background-color: #f9fafb;
 }
 
-.user-table tbody tr:hover {
+.task-table tbody tr:hover {
     background-color: #eef2ff;
 }
 
 /* Buttons styling */
+
+.add-task-btn{
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    width: 10rem;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.add-task-btn{
+    background-color: #01654c;
+    color: white;
+}
+
+
+
 .edit-btn,
 .delete-btn {
     padding: 0.4rem 0.8rem;
@@ -115,9 +141,17 @@ hr {
     color: white;
 }
 
+.add-task-btn:hover{
+    background-color: #02521d;
+    color: white;
+    transform: translateY(-2px);
+}
+
 .error-message {
     color: red;
     font-weight: bold;
     text-align: center;
     margin-bottom: 1rem;
 }
+
+

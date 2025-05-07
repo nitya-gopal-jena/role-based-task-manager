@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import '../styles/updateprofile.css';
+import '../../styles/updateprofile.css';
 
 const UpdateProfile = () => {
   const [user, setUser] = useState({
@@ -11,6 +11,24 @@ const UpdateProfile = () => {
   });
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get('http://localhost:5000/api/users/profile', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setUser(response.data.user);
+      } catch (err) {
+        setError('Failed to fetch user data.');
+      }
+    };
+    fetchUser();
+},[])
+
 
   // Handle input changes
   const handleChange = (e) => {
@@ -28,13 +46,13 @@ const UpdateProfile = () => {
 
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`http://localhost:5000/api/users/update`, user, {
+      await axios.put(`http://localhost:5000/api/users/update-profile/edit`, user, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
-      alert('User updated successfully!');
+      alert('User profile updated successfully!');
       navigate('/edit-profile');
     } catch (err) {
       console.error(err);
@@ -47,7 +65,7 @@ const UpdateProfile = () => {
     <>
       <div className='profile-wrapper'>
         <div className='profile-container'>
-          <h2 className='profile-title'>Update Profile</h2>
+          <h2 className='update-title'>Update Profile</h2>
           {error && <p style={{ color: 'red' }}>{error}</p>}
           <form onSubmit={handleSubmit}>
             <div className='form-group'>
@@ -62,11 +80,10 @@ const UpdateProfile = () => {
               <input type='email' className='form-input' placeholder='Email Address' name='email' value={user.email} onChange={handleChange} />
             </div>
 
-            <div className='btn-group'>
-              <button type='submit' className='update-btn'>
+    
+              <button type='submit' className='save-btn'>
                 Save
               </button>
-            </div>
           </form>
         </div>
       </div>

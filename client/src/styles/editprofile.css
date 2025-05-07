@@ -1,95 +1,98 @@
 .profile-wrapper {
-    position: fixed;
-    background: #210148;
-    width: 100%;
-    height: 100%;
-    top: 0px;
-    left: 0px;
+  position: fixed;
+  background: #210148;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 50px;
 }
 
+
 .profile-container {
-    background: #1e0439;
-    backdrop-filter: blur(10px);
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 5px 10px rgba(255, 255, 255, 0.1);
-    text-align: center;
-    width: 700px;
-    height: auto;
-    padding: 30px;
-    align-items: center;
-    justify-content: center;
-    margin: 100px 450px;
+  background: #1e0439;
+  backdrop-filter: blur(10px);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 10px rgba(255, 255, 255, 0.1);
+  text-align: center;
+  width: 800px;
+  height: auto;
 }
 
 
 .user-profile-header {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    border-radius: 12px;
-    margin-bottom: 20px;
-    transition: box-shadow 0.3s ease;
-  }
-  
-  .user-profile-header:hover {
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  }
-  
-  .profile-title {
-    font-size: 15px;
-    font-weight: 600;
-    color: white;
-    margin: 0;
-    text-transform: capitalize;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  transition: box-shadow 0.3s ease;
+}
+
+.user-profile-header:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.profile-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+  text-transform: capitalize;
+}
+
+.profile-title .name {
+  margin-left: 6px;
+}
+
+/* Status Styles */
+.profile-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #09e33c;
+  background: linear-gradient(135deg, #444, #393939);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  text-transform: capitalize;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #13d540;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.3);
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.7;
   }
 
-  .profile-title .name{
-    margin-left: 6px;
+  70% {
+    transform: scale(1.3);
+    opacity: 0;
   }
-  
-  /* Status Styles */
-  .profile-status {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.4rem 0.75rem;
-    border-radius: 9999px;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: #09e33c;
-    background: linear-gradient(135deg, #444, #393939);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-    text-transform: capitalize;
-  }
-  
-  .status-dot {
-    width: 8px;
-    height: 8px;
-    background-color: #13d540;
-    border-radius: 50%;
-    box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.3);
-    animation: pulse 1.5s infinite;
-  }
-  
-  @keyframes pulse {
-    0% {
-      transform: scale(0.95);
-      opacity: 0.7;
-    }
-    70% {
-      transform: scale(1.3);
-      opacity: 0;
-    }
-    100% {
-      transform: scale(0.95);
-      opacity: 0;
-    }
-  }
-  
-  
 
-  
+  100% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+}
+
+
+
+
 
 /* .profile-photo-wrapper {
     text-align: center;
@@ -116,20 +119,24 @@
 
   .modern-role-display {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    padding: 8px;
+    align-items: center;
+    padding: 10px 16px;
     background-color: #f9f9f9;
     border-radius: 10px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-    max-width: 400px;
-    margin: 10px 0;
+    width: 100%;
+    box-sizing: border-box;
   }
   
+
+
   .role-label {
-    font-weight: 500;
     font-size: 1rem;
-    color: #333;
+    color: #000000 !important;
+    font-weight: 500;
+    margin-right: 12px;
+    white-space: nowrap;
   }
   
   .role-chip {
@@ -141,53 +148,54 @@
     font-weight: 600;
     text-transform: capitalize;
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+    margin-left: auto;
   }
   
 
-.btn-group{
-    display: flex;
-    justify-content: space-between;
+.btn-group {
+  display: flex;
+  justify-content: space-between;
 }
 
-.update-btn{
-    padding: 12px;
-    color: #fff;
-    background: #6809ba;
-    margin-top: 15px;
-    font-size: 15px;
-    font-weight: 500;
-    text-decoration: none;
-    border: none;
-    width: 200px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+.update-btn {
+  padding: 12px;
+  color: #fff;
+  background: #6809ba;
+  margin-top: 15px;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  border: none;
+  width: 200px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.update-btn:hover{
-    background: #720ab3;
-    transform: translateY(-1px);
-    transition: all 0.3s ease;
+.update-btn:hover {
+  background: #720ab3;
+  transform: translateY(-1px);
+  transition: all 0.3s ease;
 }
 
 
-.change-password{
-    padding: 12px;
-    color: #fff;
-    background: #6809ba;
-    margin-top: 15px;
-    font-size: 15px;
-    font-weight: 500;
-    width: 200px;
-    border: none;
-    text-decoration: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+.change-password {
+  padding: 12px;
+  color: #fff;
+  background: #6809ba;
+  margin-top: 15px;
+  font-size: 15px;
+  font-weight: 500;
+  width: 200px;
+  border: none;
+  text-decoration: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.change-password:hover{
-    background: #720ab3;
-    transform: translateY(-1px);
-    transition: all 0.3s ease;
+.change-password:hover {
+  background: #720ab3;
+  transform: translateY(-1px);
+  transition: all 0.3s ease;
 }

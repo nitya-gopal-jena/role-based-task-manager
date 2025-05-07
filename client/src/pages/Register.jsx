@@ -1,6 +1,7 @@
 import { React, useState } from 'react';
 import '../styles/register.css';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import axios from 'axios';
 
 const Register = () => {
@@ -24,10 +25,10 @@ const Register = () => {
       const response = await axios.post('http://localhost:5000/api/users/register', formData);
 
       // setFormData({ name: '', username: '', email: '', password: '' })
-      alert(response?.data?.messgae);
+      toast.success(response?.data?.message);
       navigate('/');
     } catch (error) {
-      alert(error.response?.data?.message || 'Registration failed!');
+      toast.error(error.response?.data?.message || 'Registration failed!');
     }
   };
   return (

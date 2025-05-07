@@ -1,19 +1,24 @@
 import express from 'express'
-import { allTask, assignTask, getUserTask, deleteTask } from '../controllers/taskController.js'
+import { getAllTask, assignTask, deleteTask, getTaskById } from '../controllers/taskController.js'
+import { totalNoOftask, fetchCurrentuserTasksNo, updateTaskById, fetchCurrentuserTasks } from '../controllers/taskController.js'
 
 const router = express.Router()
 
 
+router.get("/", getAllTask)  // Fetch all tasks
+router.get('/mytasks', fetchCurrentuserTasks)
+router.get('/mytaskscount', fetchCurrentuserTasksNo)
+router.get("/:id", getTaskById)  // Fetch task by id
+router.get('/count/all', totalNoOftask)  // Fetch total no of task
+router.get('/count/user', fetchCurrentuserTasksNo)  // Fetch current user task no
+router.post("/", assignTask)    // Create a task
+router.put('/:id', updateTaskById)  // Update task by id
+router.delete("/:id", deleteTask)   // Delete task by id
 
-// Create a router for assign tasks 
-router.post("/assigntasks", assignTask)
 
-// Create a router for get user tasks 
-router.get("/usertasks", getUserTask)
 
-// Create a router for get all users tasks
-router.get("/alltasks", allTask)
 
-// Create a router for delete task
-router.delete("/delete", deleteTask)
+
+
 export default router
+

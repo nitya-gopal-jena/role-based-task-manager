@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import '../styles/editprofile.css';
+import '../../styles/editprofile.css';
 
 const EditProfile = () => {
   const [user, setUser] = useState({
@@ -60,11 +60,13 @@ const EditProfile = () => {
               <input type='email' className='form-input' placeholder='Email Address' name='email' value={user.email} required />
             </div>
 
-            <div className='form-group modern-role-display'>
-              <label htmlFor='role' className='role-label'>
-                Role
-              </label>
-              <span className='role-chip'>{user.role}</span>
+            <div className='form-group'>
+              <div className='modern-role-display'>
+                <label htmlFor='role' className='role-label'>
+                  Role
+                </label>
+                <span className='role-chip'>{user.role}</span>
+              </div>
             </div>
 
             <div className='btn-group'>

@@ -1,15 +1,18 @@
 import mongoose from "mongoose";
 
 const taskSchema = new mongoose.Schema({
-
     title: { type: String, required: true },
     description: { type: String, required: true },
-    deadline: { type: Date, required: false },
-    assignTo: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    assignBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    status: { type: String, enum: ['Pending', 'In Progress', 'Completed'], default: 'Pending' },
-    dueDate: { type: Date, required: false }
-
+    dueDate: { type: Date, required: false },
+    status: { type: String, enum: ['pending', 'In progress', 'completed'], default: 'pending' },
+    assignToId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    assignToName: { type: String },
+    createdTime: { type: Date, required: false },
+    createdById: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    createdByName: { type: String },
+    updatTime: { type: Date, required: false },
+    updatedById: { type: String },
+    updatedByName: { type: String }
 }, { timestamps: true });
 
 

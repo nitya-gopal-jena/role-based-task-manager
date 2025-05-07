@@ -1,30 +1,27 @@
 import express from 'express'
-import { register, login, updateUserProfile, deleteProfile, allusers, getuser, getUserProfile } from "../controllers/userController.js";
+import { register, login, allUsersList, fetchUserProfileEdit, updateUserProfileEdit, changePassword } from "../controllers/userController.js";
+import {  deleteUserProfile, getTotalUsersNo, getUserIdandName, getUserProfileById , updateUserProfileById } from "../controllers/userController.js";
 import authenticateUser from '../middlewares/UserAuthenticator.js';
 
 const router = express.Router()
 
-// Create a register route 
-router.post('/register', register)
 
-// Create a login route
+router.post('/register', register)
 router.post('/login', login)
 
-// Get users
-router.get('/getusers', getuser)
+// Edit profile page 
+router.get('/profile', fetchUserProfileEdit)
+router.put('/change-password', changePassword )
+router.put('/update-profile/edit', updateUserProfileEdit)
 
-// Get all users
-router.get("/alluserlist", allusers
+// User list page 
+router.get("/alluserlist", allUsersList)
+router.get('/users-name', getUserIdandName)
+router.get('/usercount', getTotalUsersNo)
+router.get('/user-profile/:id', getUserProfileById)
+router.put('/update-profile/:id', updateUserProfileById, authenticateUser)
+router.delete('/userdelete/:id', deleteUserProfile);
 
-)
 
-// Update profile
-router.put('/update', updateUserProfile, authenticateUser)
-
-// Delete profile
-router.delete('/delete/:id', deleteProfile, authenticateUser)
-
-// Get profile details
-router.get('/profile', getUserProfile ,authenticateUser)
 
 export default router
