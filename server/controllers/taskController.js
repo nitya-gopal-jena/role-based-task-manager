@@ -10,22 +10,21 @@ import { getCurrentUserRole, getCurrentUserId, ROLE_ADMIN, ROLE_USER } from '../
 // Assign a tasks
 export const assignTask = async (req, res) => {
   try {
-    const token = req.headers.authorization?.split(' ')[1];
-    if (!token) {
-      return res.status(401).json({ message: 'Unauthorized: Token not provide' })
-    }
 
-    // Verify token and extract id from token 
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    const currentUserId = decodedToken.id;
+    const currentUserId = getCurrentUserId(req);
+    const currentUserRole = getCurrentUserRole(req);
+
     var { title, description, dueDate, createdById, assignToId, status } = req.body;
     createdById = currentUserId;
-    const createdByName = decodedToken.username;
-    if (decodedToken.role === 'admin') {
+
+    const currentUser = await User.findById(currentUserId);
+    const createdByName = currentUser.name;
+
+    if (currentUserRole === ROLE_ADMIN) {
       if (assignToId == '') {
         return res.status(400).json({ message: 'Assigned user id is rerquired.' })
       }
-    } else if (decodedToken.role === 'user') {
+    } else if (currentUserRole === ROLE_USER) {
       assignToId = currentUserId;
     }
 
@@ -62,15 +61,9 @@ export const assignTask = async (req, res) => {
 export const getTaskById = async (req, res) => {
   try {
 
-    const token = req.headers.authorization.split(' ')[1];
-    if (!token) {
-      return res.status(401).json({ message: 'Unauthorized: Token not provide' });
-    }
+    const currentUserId = getCurrentUserId(req);
+    const currentUserRole = getCurrentUserRole(req);
 
-    // Verify the token 
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    const currentUserId = decodedToken.id;
-    const currentUserRole = decodedToken.role;
     const taskId = req.params.id;
     const task = await Task.findOne({ _id: taskId });
 
@@ -78,7 +71,7 @@ export const getTaskById = async (req, res) => {
       return res.status(404).json({ message: 'Task not found' });
     }
 
-    if (currentUserRole != 'admin') {
+    if (currentUserRole != ROLE_ADMIN) {
       if (task.assignToId == currentUserId) {
         return res.status(200).json({ message: 'Task fetched successfully', task });
       } else {
@@ -123,9 +116,6 @@ export const getAllTask = async (req, res) => {
   const description = queryParams.description;
   const userName = queryParams.userName;
 
-  console.log('title-->', title)
-  console.log('description-->', description)
-  console.log('userName-->', userName)
   let filters = {};
 
   if (title != undefined) {
@@ -137,17 +127,14 @@ export const getAllTask = async (req, res) => {
   if (userName != undefined) {
     filters.assignToName = { $regex: userName, $options: "i" };
   }
-  try {
-    const token = req.headers.authorization?.split(' ')[1];
-    if (!token) {
-      return res.status(401).json({ message: 'Unauthorized:Token not provided' });
-    }
 
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    const userRole = decodedToken.role;
-    const currentUserId = decodedToken.id;
+  try {
+
+    const currentUserRole = getCurrentUserRole(req);
+    const currentUserId = getCurrentUserId(req);
     var alltask = '';
-    if (userRole == 'admin') {
+
+    if (currentUserRole == ROLE_ADMIN) {
       alltask = await Task.find(filters);
     } else {
       alltask = await Task.find({ assignToId: currentUserId })
@@ -168,9 +155,9 @@ export const updateTaskById = async (req, res) => {
     const currentUserId = getCurrentUserId(req);
     const currentUserRole = getCurrentUserRole(req);
     let newAssignToId = req.body.assignToId;
-    const taskId = req.params.id; // FIXED
+    const taskId = req.params.id;
 
-    const task = await Task.findById(taskId); // FIXED
+    const task = await Task.findById(taskId);
     if (!task) {
       return res.status(403).json({ message: 'Task not found' });
     }
@@ -241,7 +228,6 @@ export const totalNoOftask = async (req, res) => {
     if (getCurrentUserRole(req) !== ROLE_ADMIN) {
       return res.status(403).json({ message: 'Access denied: Admin only' });
     }
-    console.log('hello')
     const taskCount = await Task.countDocuments();
     return res.status(200).json({ totalNoOftask: taskCount });
   } catch (error) {
@@ -251,20 +237,10 @@ export const totalNoOftask = async (req, res) => {
 
 
 
-
-
-
 // Fetch the total no of tasks of current loged in user
 export const fetchCurrentuserTasksNo = async (req, res) => {
   try {
-    const token = req.headers.authorization?.split(' ')[1];
-    if (!token) {
-      return res.status(401).json({ message: 'Unauthorized: Token not provided' });
-    }
-
-    // Verify the token and extract the user ID
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    const currentUserId = decodedToken.id;
+    const currentUserId = getCurrentUserId(req);
 
     // Count the number of tasks assigned to the current user
     const totalNoTasks = await Task.countDocuments({ assignToId: currentUserId });
@@ -281,15 +257,7 @@ export const fetchCurrentuserTasksNo = async (req, res) => {
 // Fetch the tasks assigned to users who are currently logged in
 export const fetchCurrentuserTasks = async (req, res) => {
   try {
-    const token = req.headers.authorization?.split(' ')[1];
-    if (!token) {
-      return res.status(401).json({ message: 'Unauthorized: Token not provide' });
-    }
-
-
-    // Verify the token and extract the id
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    const currentUserId = decodedToken.id;
+    const currentUserId = getCurrentUserId(req);
 
     // Find the tasks where the assignToId id is equal to currentUserId
     const tasks = await Task.find({ assignToId: currentUserId });

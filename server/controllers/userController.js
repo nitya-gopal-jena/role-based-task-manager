@@ -4,6 +4,8 @@ import User from '../models/User.js';
 import generateToken from '../utils/token.js';
 import { getCurrentUserRole, getCurrentUserId, ROLE_ADMIN, ROLE_USER } from '../utils/utils.js'
 
+
+
 // Registration controller
 export const register = async (req, res) => {
     try {
@@ -289,15 +291,9 @@ export const deleteProfile = async (req, res) => {
 // Delete the users profile from database by admin
 export const deleteUserProfile = async (req, res) => {
     try {
-        const token = req.headers.authorization?.split(' ')[1];
-        if (!token) {
-            return res.status(401).json({ message: 'Unauthorized: Token not provided' });
-        }
-
-        // Verify token and extract the current id and role
-        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-        const currentUserId = decodedToken.id;
-        const currentUserRole = decodedToken.role;
+     
+        const currentUserId = getCurrentUserId(req);
+        const currentUserRole = getCurrentUserRole(req);
 
         // Only admin can delete users
         if (currentUserRole !== 'admin') {
@@ -328,15 +324,9 @@ export const deleteUserProfile = async (req, res) => {
 // Fetch the total no of users 
 export const getTotalUsersNo = async (req, res) => {
     try {
-        const token = req.headers.authorization?.split(' ')[1];
-        if (!token) {
-            return res.status(401).json({ message: 'Unauthorized: Token not provided' })
-        }
 
-        // Verify the token and get the role 
-        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-        const currentUserRole = decodedToken.role;
-        if (currentUserRole !== 'admin') {
+        const currentUserRole = getCurrentUserRole(req);
+        if (currentUserRole !== ROLE_ADMIN) {
             return res.status(403).json({ message: 'Access denied: Admin only' })
         }
 
