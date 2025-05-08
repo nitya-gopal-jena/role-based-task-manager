@@ -124,28 +124,49 @@ hr {
 
 .edit-btn,
 .delete-btn {
-    padding: 0.4rem 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
     border: none;
-    border-radius: 6px;
+    border-radius: 50%;
     cursor: pointer;
-    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .edit-btn {
     background-color: #3b82f6;
-    color: white;
+    color: #fff;
 }
 
 .delete-btn {
     background-color: #ef4444;
-    color: white;
+    color: #fff;
 }
 
-.add-task-btn:hover{
-    background-color: #02521d;
-    color: white;
-    transform: translateY(-2px);
+.edit-btn:hover {
+    background-color: #1d4ed8;
+    transform: rotate(10deg) scale(1.05);
+    box-shadow: 2px 6px 12px rgba(0, 0, 0, 0.2);
 }
+
+
+.delete-btn:hover {
+    background-color: #dc2626;
+    transform: rotate(10deg) scale(1.05);
+    box-shadow: 0 6px 14px rgba(239, 68, 68, 0.3);
+}
+
+.edit-btn-icon,
+.delete-btn-icon {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+
 
 .error-message {
     color: red;

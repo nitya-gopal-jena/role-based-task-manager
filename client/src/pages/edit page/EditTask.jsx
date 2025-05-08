@@ -57,16 +57,16 @@ const EditTask = () => {
   // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setTask((prevUser) => ({
-      ...prevUser,
+    setTask((prevTask) => ({
+      ...prevTask,
       [name]: value,
     }));
-
+  
     if (name === 'assignToId') {
       setSelectedUserId(value);
-      task.assignToId = value;
     }
   };
+  
 
   // Update the task
   const handleSubmit = async (e) => {
@@ -81,7 +81,8 @@ const EditTask = () => {
 
       alert('Task updated successfully!');
     } catch (error) {
-      setError('Failed to update task');
+      setError(error?.response?.data?.message || 'Failed to update task');
+
     }
   };
 
@@ -105,9 +106,9 @@ const EditTask = () => {
             <div className='form-group'>
               <label htmlFor='assignToId'>Assign To Name</label>
               <select id='dropdown' value={selectedUserId} name='assignToId' onChange={handleChange}>
-                <option value='select'>-- Select User --</option>
+                <option value=''>-- Select User --</option>
                 {users.map((user) => (
-                  <option value={user._id}>{user.name}</option>
+                  <option key={user._id} value={user._id}>{user.name}</option>
                 ))}
               </select>
             </div>

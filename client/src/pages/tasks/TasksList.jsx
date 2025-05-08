@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { MdEditSquare } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 import { getCurrentUserRole, ROLE_ADMIN, ROLE_USER } from '../../utils/Utils';
 import '../../styles/tasks/taskslist.css';
 
@@ -122,13 +124,13 @@ const TasksList = ({ showUserTasks = false }) => {
                     <td>{alltask.status}</td>
                     <td>{alltask.dueDate?.slice(0, 10)}</td>
                     <td>
-                      <button className='edit-btn' onClick={() => editTask(alltask._id)}>
-                        Edit
+                      <button  className='edit-btn' onClick={() => editTask(alltask._id)}>
+                      < MdEditSquare className='edit-btn-icon'/> 
                       </button>
                     </td>
                     <td>
-                      <button className='delete-btn' onClick={() => handleDeleteTask(alltask._id)}>
-                        Delete
+                      <button  className='delete-btn' onClick={() => handleDeleteTask(alltask._id)}>
+                      <MdDelete className='delete-btn-icon' />  
                       </button>
                     </td>
                   </tr>

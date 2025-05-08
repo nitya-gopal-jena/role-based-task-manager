@@ -165,43 +165,42 @@ export const getAllTask = async (req, res) => {
 // Update the tasks
 export const updateTaskById = async (req, res) => {
   try {
-
     const currentUserId = getCurrentUserId(req);
     const currentUserRole = getCurrentUserRole(req);
     let newAssignToId = req.body.assignToId;
-    const taskId = req.params._id;
+    const taskId = req.params.id; // FIXED
 
-    const task = await Task.findOne(taskId)
+    const task = await Task.findById(taskId); // FIXED
     if (!task) {
-      return res.status(403).json({ message: 'Task not found' })
+      return res.status(403).json({ message: 'Task not found' });
     }
 
-
-    if (currentUserRole != ROLE_ADMIN) {
-      if (newAssignToId != currentUserId) {
-        return res.status(400).json({ message: 'Can not update any others tasks' });
+    if (currentUserRole !== ROLE_ADMIN) {
+      if (newAssignToId !== currentUserId) {
+        return res.status(400).json({ message: 'Cannot update others\' tasks' });
       } else {
-        newAssignToId = currentUserId
+        newAssignToId = currentUserId;
       }
     }
 
-
-    const user = await User.findOne({ _id: newAssignToId });
+    const user = await User.findById(newAssignToId);
     if (!user) {
-      return res.status(400).json({ message: 'Assign user not found !' });
+      return res.status(400).json({ message: 'Assigned user not found!' });
     }
 
-
-    Object.assign(task, req.body);
-
-    task.assignToName = user.name
+    // Update fields explicitly
+    task.title = req.body.title;
+    task.description = req.body.description;
+    task.assignToId = newAssignToId;
+    task.assignToName = user.name;
+    task.status = req.body.status;
+    task.dueDate = req.body.dueDate;
 
     await task.save();
 
     return res.status(200).json({ message: 'Task updated successfully', task });
-
   } catch (error) {
-    return res.status(500).json({ message: 'Error while update the task', message: error.message });
+    return res.status(500).json({ message: 'Error while updating the task', error: error.message });
   }
 };
 
@@ -287,7 +286,7 @@ export const fetchCurrentuserTasks = async (req, res) => {
       return res.status(401).json({ message: 'Unauthorized: Token not provide' });
     }
 
-    
+
     // Verify the token and extract the id
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
     const currentUserId = decodedToken.id;

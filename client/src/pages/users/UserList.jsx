@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { MdEditSquare } from 'react-icons/md';
+import { MdDelete } from 'react-icons/md';
 import '../../styles/userlist/userlist.css';
 
 const UserList = () => {
@@ -70,7 +72,6 @@ const UserList = () => {
     }
   };
 
-  
   return (
     <div className='main-container'>
       <div className='user-table-container'>
@@ -103,13 +104,13 @@ const UserList = () => {
                   <td>{user.role}</td>
                   <td>{user.status}</td>
                   <td>
-                    <button className='edit-btn' onClick={() => handleEditUser(user._id)}>
-                      Edit
+                    <button  className='edit-btn' onClick={() => handleEditUser(user._id)}>
+                      <MdEditSquare className='edit-btn-icon' />
                     </button>
                   </td>
                   <td>
-                    <button className='delete-btn' onClick={() => handleDeleteUser(user._id)}>
-                      Delete
+                    <button  className='delete-btn' onClick={() => handleDeleteUser(user._id)}>
+                      <MdDelete className='delete-btn-icon' />
                     </button>
                   </td>
                 </tr>
