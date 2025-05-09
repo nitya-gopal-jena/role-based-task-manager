@@ -5,6 +5,7 @@ configDotenv();
 import cors from 'cors'
 import userRoutes from './routes/userRoutes.js';
 import taskRoutes from './routes/taskRoutes.js'
+import paginationRoutes from './routes/paginationRoutes.js'
 
 
 const app = express();
@@ -19,6 +20,9 @@ app.use('/api/users', userRoutes)
 
 // Taskroutes
 app.use('/api/tasks', taskRoutes)
+
+// Pagination 
+app.use('/api/pages', paginationRoutes)
 
 
 
