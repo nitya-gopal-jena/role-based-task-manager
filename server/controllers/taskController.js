@@ -108,7 +108,8 @@ export const getUserTask = async (req, res) => {
 };
 
 
-// Fetch all task lists
+
+// Fetch all task lists with pagination
 export const getAllTask = async (req, res) => {
   const queryParams = req.query;
 
@@ -116,35 +117,57 @@ export const getAllTask = async (req, res) => {
   const description = queryParams.description;
   const userName = queryParams.userName;
 
+  const page = parseInt(queryParams.page) || 1;
+  const limit = parseInt(queryParams.limit) || 10;
+
+  if (page <= 0 || limit <= 0) {
+    return res.status(400).json({ message: 'Page and limit must be positive numbers.' });
+  }
+
+  const skip = (page - 1) * limit;
+
   let filters = {};
 
-  if (title != undefined) {
+  if (title !== undefined) {
     filters.title = { $regex: title, $options: "i" };
   }
-  if (description != undefined) {
+  if (description !== undefined) {
     filters.description = { $regex: description, $options: "i" };
   }
-  if (userName != undefined) {
+  if (userName !== undefined) {
     filters.assignToName = { $regex: userName, $options: "i" };
   }
 
   try {
-
     const currentUserRole = getCurrentUserRole(req);
     const currentUserId = getCurrentUserId(req);
-    var alltask = '';
 
-    if (currentUserRole == ROLE_ADMIN) {
-      alltask = await Task.find(filters);
+    let taskQuery;
+    if (currentUserRole === ROLE_ADMIN) {
+      taskQuery = Task.find(filters);
     } else {
-      alltask = await Task.find({ assignToId: currentUserId })
+      taskQuery = Task.find({ assignToId: currentUserId });
     }
 
-    // Fetch all tasks
+    const [alltask, total] = await Promise.all([
+      taskQuery.skip(skip).limit(limit).sort({ createdAt: -1 }),
+      currentUserRole === ROLE_ADMIN
+        ? Task.countDocuments(filters)
+        : Task.countDocuments({ assignToId: currentUserId })
+    ]);
 
-    res.status(200).json({ message: 'success', alltask });
+    res.status(200).json({
+      message: 'Successfully fetch the tasks lists',
+      alltask,
+      total,
+      pages: Math.ceil(total / limit),
+      currentPage: page
+    });
   } catch (error) {
-    res.status(500).json({ message: 'Something went wrong when fetch all tasks', msg: error.message });
+    res.status(500).json({
+      message: 'Something went wrong when fetching tasks',
+      msg: error.message
+    });
   }
 };
 

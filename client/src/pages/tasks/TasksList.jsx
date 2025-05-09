@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { MdEditSquare } from "react-icons/md";
-import { MdDelete } from "react-icons/md";
+import { MdEditSquare } from 'react-icons/md';
+import { MdDelete } from 'react-icons/md';
 import { getCurrentUserRole, ROLE_ADMIN, ROLE_USER } from '../../utils/Utils';
 import '../../styles/tasks/taskslist.css';
 
@@ -10,7 +10,11 @@ const TasksList = ({ showUserTasks = false }) => {
   const [taskslist, setTasksList] = useState([]);
   const [error, setError] = useState('');
   const [totalTask, setTotalTask] = useState(0);
+  const [pages, setPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
+
+  const TASKS_PER_PAGE = 10;
 
   useEffect(() => {
     const fetchTotalTasksNo = async () => {
@@ -31,7 +35,7 @@ const TasksList = ({ showUserTasks = false }) => {
     const fetchTasksList = async () => {
       try {
         const token = localStorage.getItem('token');
-        const url = showUserTasks ? 'http://localhost:5000/api/tasks/mytasks' : 'http://localhost:5000/api/tasks/';
+        const url = showUserTasks ? `http://localhost:5000/api/tasks/mytasks?page=${currentPage}&limit=${TASKS_PER_PAGE}` : `http://localhost:5000/api/tasks/?page=${currentPage}&limit=${TASKS_PER_PAGE}`;
 
         const response = await axios.get(url, {
           headers: {
@@ -40,9 +44,9 @@ const TasksList = ({ showUserTasks = false }) => {
         });
 
         const tasks = showUserTasks ? response.data.tasks : response.data.alltask;
-
+        setPages(response.data.pages);
         setTasksList(tasks);
-        setTotalTask(tasks.length);
+        setTotalTask(response.data.total);
       } catch (error) {
         setError(showUserTasks ? 'Failed to load your tasks.' : 'Failed to fetch tasks list.');
       }
@@ -50,8 +54,10 @@ const TasksList = ({ showUserTasks = false }) => {
 
     fetchTotalTasksNo();
     fetchTasksList();
-  }, []);
+  }, [currentPage]);
 
+
+  
   // Delete the task  from database
   const handleDeleteTask = async (taskId) => {
     const confirmDelete = window.confirm('Are you sure you want to delete this task ?');
@@ -82,6 +88,18 @@ const TasksList = ({ showUserTasks = false }) => {
     e.preventDefault();
     navigate('/add-task');
   };
+
+
+  // Next/Prev button for pagination
+  const goToNextPage = () => {
+    if (currentPage < pages) setCurrentPage(currentPage + 1);
+  };
+
+  const goToPrevPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
+
 
   return (
     <>
@@ -124,19 +142,28 @@ const TasksList = ({ showUserTasks = false }) => {
                     <td>{alltask.status}</td>
                     <td>{alltask.dueDate?.slice(0, 10)}</td>
                     <td>
-                      <button  className='edit-btn' onClick={() => editTask(alltask._id)}>
-                      < MdEditSquare className='edit-btn-icon'/> 
+                      <button className='edit-btn' onClick={() => editTask(alltask._id)}>
+                        <MdEditSquare className='edit-btn-icon' />
                       </button>
                     </td>
                     <td>
-                      <button  className='delete-btn' onClick={() => handleDeleteTask(alltask._id)}>
-                      <MdDelete className='delete-btn-icon' />  
+                      <button className='delete-btn' onClick={() => handleDeleteTask(alltask._id)}>
+                        <MdDelete className='delete-btn-icon' />
                       </button>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
+          </div>
+
+          {/* Pagination Buttons */}
+          <div className='pagination-container'>
+            <button className='pagination-btn' onClick={goToPrevPage} disabled= {currentPage=== 1} >Prev</button>
+            <span className='pagination-info'>
+              Page {currentPage} of {pages}
+            </span>
+            <button className='pagination-btn' onClick={goToNextPage} disabled={currentPage === pages}>Next</button>
           </div>
         </div>
       </div>

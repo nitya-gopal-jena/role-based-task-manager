@@ -1,28 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { MdEditSquare } from 'react-icons/md';
-import { MdDelete } from 'react-icons/md';
+import { MdEditSquare, MdDelete } from 'react-icons/md';
 import '../../styles/userlist/userlist.css';
 
 const UserList = () => {
   const [userlist, setUserList] = useState([]);
   const [totalUsers, setTotalUsers] = useState(0);
+  const [pages, setPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  // Fetch all user list
+  const USERS_PER_PAGE = 10;
+
   useEffect(() => {
     const fetchUserList = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:5000/api/users/alluserlist', {
+        const response = await axios.get(`http://localhost:5000/api/users/alluserlist?page=${currentPage}&limit=${USERS_PER_PAGE}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        setUserList(response.data.user);
-      } catch (err) {
+        setUserList(response.data.userdata); 
+        setPages(response.data.pages);
+      } catch (error) {
         setError('Failed to fetch user list: Admin only');
       }
     };
@@ -44,14 +47,12 @@ const UserList = () => {
 
     fetchTotalUsersNo();
     fetchUserList();
-  }, []);
+  }, [currentPage]);
 
-  // Function to navigate to edit task page
   const handleEditUser = (userId) => {
     navigate(`/edit-user/${userId}`);
   };
 
-  // Delete the users profile from database
   const handleDeleteUser = async (userId) => {
     const confirmDelete = window.confirm('Are you sure you want to delete this user?');
     if (!confirmDelete) return;
@@ -65,11 +66,21 @@ const UserList = () => {
       });
 
       alert(response.data.message);
-      window.location.reload();
+      // Refresh current page data after deletion
+      setUserList((prev) => prev.filter((user) => user._id !== userId));
     } catch (error) {
       console.error('Error deleting user:', error);
       alert(error?.response?.data?.message || 'Failed to delete user');
     }
+  };
+
+  // Next/Prev button for pagination
+  const goToNextPage = () => {
+    if (currentPage < pages) setCurrentPage(currentPage + 1);
+  };
+
+  const goToPrevPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
 
   return (
@@ -97,19 +108,19 @@ const UserList = () => {
             <tbody>
               {userlist.map((user, index) => (
                 <tr key={user._id || index}>
-                  <td className='sl-no'>{index + 1}</td>
+                  <td className='sl-no'>{(currentPage - 1) * USERS_PER_PAGE + index + 1}</td>
                   <td>{user.name}</td>
                   <td>{user.username}</td>
                   <td>{user.email}</td>
                   <td>{user.role}</td>
                   <td>{user.status}</td>
                   <td>
-                    <button  className='edit-btn' onClick={() => handleEditUser(user._id)}>
+                    <button className='edit-btn' onClick={() => handleEditUser(user._id)}>
                       <MdEditSquare className='edit-btn-icon' />
                     </button>
                   </td>
                   <td>
-                    <button  className='delete-btn' onClick={() => handleDeleteUser(user._id)}>
+                    <button className='delete-btn' onClick={() => handleDeleteUser(user._id)}>
                       <MdDelete className='delete-btn-icon' />
                     </button>
                   </td>
@@ -117,6 +128,19 @@ const UserList = () => {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Pagination Buttons */}
+        <div className='pagination-container'>
+          <button className='pagination-btn' onClick={goToPrevPage} disabled={currentPage === 1}>
+            Prev
+          </button>
+          <span className='pagination-info'>
+            Page {currentPage} of {pages}
+          </span>
+          <button className='pagination-btn' onClick={goToNextPage} disabled={currentPage === pages}>
+            Next
+          </button>
         </div>
       </div>
     </div>

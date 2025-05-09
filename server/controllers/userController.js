@@ -64,20 +64,35 @@ export const login = async (req, res) => {
 };
 
 
-// Fetch all users list
+// Fetch all users list with pagination
 export const allUsersList = async (req, res) => {
     try {
         if (getCurrentUserRole(req) !== ROLE_ADMIN) {
             return res.status(403).json({ message: 'Access denied: Admin only' });
         }
 
-        const user = await User.find();
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
 
-        if (user && user.length > 0) {
-            return res.status(200).json({ message: 'User list fetched successfully', user });
-        } else {
-            return res.status(404).json({ message: 'No users found', user: [] });
+        if (page <= 0 || limit <= 0) {
+            return res.status(400).json({ message: 'Page and limit must be positive numbers.' });
         }
+
+        const skip = (page - 1) * limit;
+
+        const [users, total] = await Promise.all([
+            User.find().skip(skip).limit(limit).sort({ createdAt: -1 }),
+            User.countDocuments()
+        ]);
+
+        return res.status(200).json({
+            message: 'User list fetched successfully',
+            userdata: users,
+            total,
+            pages: Math.ceil(total / limit),
+            currentPage: page,
+        });
+
     } catch (error) {
         return res.status(500).json({
             message: 'Something went wrong when fetching users!',
@@ -85,6 +100,7 @@ export const allUsersList = async (req, res) => {
         });
     }
 };
+
 
 
 // Fetch the user profile on edit profile page 

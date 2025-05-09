@@ -176,3 +176,32 @@ hr {
 }
 
 
+
+/* Pagination  */
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    gap: 6rem;
+  }
+  
+  .pagination-btn {
+    padding: 8px 16px;
+    background-color: #007bff;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .pagination-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .pagination-info {
+    font-weight: bold;
+    font-size: 16px;
+  }
+  
