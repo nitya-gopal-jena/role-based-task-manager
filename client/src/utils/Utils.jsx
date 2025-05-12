@@ -1,8 +1,11 @@
 import React from 'react';
 import { jwtDecode } from 'jwt-decode';
+import axios from 'axios';
+// import { toast } from 'react-toastify';
 
 const ROLE_ADMIN = 'admin';
 const ROLE_USER = 'user';
+
 
 const getCurrentUserRole = () => {
   const token = localStorage.getItem('token');
@@ -30,4 +33,6 @@ const getCurrentUserName = () => {
   }
 };
 
-export { getCurrentUserRole, getCurrentUserName, ROLE_ADMIN, ROLE_USER };
+
+
+export { getCurrentUserRole, getCurrentUserName, ROLE_ADMIN, ROLE_USER, };

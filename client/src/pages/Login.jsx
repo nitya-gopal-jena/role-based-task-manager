@@ -1,15 +1,40 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import '../styles/login.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 
 const Login = () => {
   const [email, setUserEmail] = useState('');
   const [password, setPassword] = useState('');
-
   const navigate = useNavigate();
+
+
+  
+  const handleAutoLogout = (token) => {
+    try {
+      const decoded = jwtDecode(token);
+      const expiryTime = decoded.exp * 1000;
+      const timeLeft = expiryTime - Date.now();
+
+      if (timeLeft > 0) {
+        setTimeout(() => {
+          localStorage.clear();
+          toast.info('Session expired. Please login again.');
+          navigate('/');
+        }, timeLeft);
+      } else {
+        // Already expired
+        localStorage.clear();
+        navigate('/');
+      }
+    } catch (error) {
+      console.error('Token decode failed', error);
+      localStorage.clear();
+      navigate('/');
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,11 +44,14 @@ const Login = () => {
 
       // Extract role from response
       const { token, username, role } = response.data;
-   
+
       // Store login details in local storage
       localStorage.setItem('token', token);
       localStorage.setItem('username', username);
       localStorage.setItem('role', role);
+
+      // Auto logout when session expired
+      handleAutoLogout(token);
 
       toast.success(response?.data?.message);
 

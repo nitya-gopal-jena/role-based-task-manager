@@ -1,29 +1,30 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 
-.login-container{
-    position: fixed;  
-    background: #210148;
-    width:100%;
-    height:100%;
-    top:0px;
-    left:0px;    
+.login-container {
+  position: fixed;
+  background: #210148;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+
 .login-box {
-    background: #1e0439;
-    backdrop-filter: blur(10px);
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 5px 10px rgba(255, 255, 255, 0.1);
-    text-align: center;
-    width: 450px;
-    height: auto;
-    padding: 30px;
-    align-items: center;
-    justify-content: center;
-    margin: 140px 550px;
+  background: #1e0439;
+  backdrop-filter: blur(10px);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 10px rgba(255, 255, 255, 0.1);
+  text-align: center;
+  width: 450px;
+  height: auto;
 }
+
 
 .login-title {
     
@@ -101,4 +102,65 @@ input {
 
 .register-link a:hover {
     text-decoration: underline;
+}
+
+
+
+/* Media query for device  responsive  */
+
+/* Medium devices (tablets, 768px to 998px) */
+@media screen and (max-width: 998px) {
+  .login-box {
+    margin: 100px auto;
+    width: 80%;
+    padding: 25px;
+  }
+}
+
+/* Small devices (landscape phones, 576px to 767px) */
+@media screen and (max-width: 767px) {
+  .login-box {
+    margin: 80px auto;
+    width: 90%;
+    padding: 20px;
+  }
+
+  .login-title {
+    font-size: 20px;
+  }
+
+  .login-description {
+    font-size: 13px;
+  }
+
+  input, .login-btn {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
+/* Extra small devices (portrait phones, less than 576px) */
+@media screen and (max-width: 575px) {
+  .login-box {
+    margin: 60px auto;
+    width: 95%;
+    padding: 15px;
+  }
+
+  .login-title {
+    font-size: 18px;
+  }
+
+  .login-description {
+    font-size: 12px;
+  }
+
+  input, .login-btn {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  .register-link {
+    font-size: 12px;
+  }
 }
