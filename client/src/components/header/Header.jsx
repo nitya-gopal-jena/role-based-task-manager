@@ -4,25 +4,24 @@ import { FaUserEdit } from 'react-icons/fa';
 import { IoLogOut } from 'react-icons/io5';
 import { FaTasks } from 'react-icons/fa';
 import { BiSolidDashboard } from 'react-icons/bi';
+import { GiHamburgerMenu } from 'react-icons/gi';
 import { toast } from 'react-toastify';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import '../../styles/header.css';
 import { getCurrentUserRole, getCurrentUserName, ROLE_ADMIN, ROLE_USER } from '../../utils/Utils';
 
-
-
-
 const Header = () => {
   const [username, setUsername] = useState(localStorage.getItem('username') || '');
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null); // Reference to the dropdown
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const dropdownRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Get and store username from localStorage
+
   useEffect(() => {
     setUsername(getCurrentUserName());
-    // Add event listener when drop down mounts and remove when unmounts
+    
     if (location.pathname === '/edit-profile') {
       setDropdownOpen(false);
     }
@@ -66,7 +65,9 @@ const Header = () => {
 
           <nav className='nav-menu'>
             <div className='auth-links'>
-              <div className='nav-link'>
+             
+
+              <div className={`nav-link ${isMobileMenuOpen ? 'show-menu' : ''}`}>
                 <Link to='/all-tasks-list' className='links-group'>
                   List Task
                 </Link>
@@ -75,19 +76,16 @@ const Header = () => {
                     List Users
                   </Link>
                 )}
-
                 <Link to='/about' className='links-group'>
                   About
                 </Link>
-
                 <Link to='/dashboard' className='dashboard'>
                   <BiSolidDashboard className='dash-icon' />
                   Dashboard
                 </Link>
               </div>
 
-              {/* Create a user profile icon with drop down features  */}
-              <div className='user-dropdown' ref={dropdownRef}>
+              <div className='user-dropdown' ref={dropdownRef} onClick={handleClickOutside}>
                 <div className='user-info' onClick={() => setDropdownOpen(!dropdownOpen)}>
                   <FaUserCircle size={30} />
                   <span>{username}</span>
@@ -104,6 +102,7 @@ const Header = () => {
                   </div>
                 )}
               </div>
+               <GiHamburgerMenu className='hamburger-icon' onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
             </div>
           </nav>
         </div>

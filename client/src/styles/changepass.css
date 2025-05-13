@@ -45,3 +45,53 @@ h2{
     transform: translateY(-1px);
     transition: all 0.3s ease;
 }
+
+
+
+
+
+/* Medium Devices (Tablets & Small Laptops) */
+@media (max-width: 1024px) {
+  .password-container {
+    width: 80%;
+    margin: 150px auto;
+  }
+}
+
+/* Small Devices (Tablets & Large Phones) */
+@media (max-width: 768px) {
+  .password-container {
+    width: 90%;
+    padding: 25px;
+    margin: 120px auto;
+  }
+
+  .pass-btn {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+}
+
+/* Extra Small Devices (Phones) */
+@media (max-width: 480px) {
+  .password-container {
+    width: 95%;
+    padding: 20px;
+    margin: 100px auto;
+    border-radius: 8px;
+  }
+
+  .pass-btn {
+    width: 100%;
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+}

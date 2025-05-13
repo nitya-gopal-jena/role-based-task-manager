@@ -199,3 +199,108 @@
   transform: translateY(-1px);
   transition: all 0.3s ease;
 }
+
+
+
+
+
+/* Medium Devices (Tablets & small laptops) */
+@media (max-width: 1024px) {
+  .profile-container {
+    width: 90%;
+    padding: 25px;
+  }
+
+  .user-profile-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .btn-group {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .update-btn,
+  .change-password {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+/* Small Devices (Tablets & large phones) */
+@media (max-width: 768px) {
+  .profile-container {
+    width: 95%;
+    padding: 20px;
+  }
+
+  .modern-role-display {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .role-chip {
+    margin-left: 0;
+  }
+
+  .btn-group {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .update-btn,
+  .change-password {
+    width: 100%;
+  }
+
+  .profile-status {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+  }
+
+  .profile-title {
+    font-size: 14px;
+  }
+}
+
+/* Extra Small Devices (Phones) */
+@media (max-width: 480px) {
+  .profile-container {
+    width: 100%;
+    padding: 16px;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .user-profile-header {
+    flex-direction: column;
+  }
+
+  .modern-role-display {
+    flex-direction: column;
+    padding: 8px 12px;
+  }
+
+  .role-label {
+    font-size: 14px;
+  }
+
+  .role-chip {
+    font-size: 13px;
+    padding: 5px 10px;
+  }
+
+  .profile-title {
+    font-size: 13px;
+  }
+
+  .update-btn,
+  .change-password {
+    font-size: 14px;
+    padding: 10px;
+  }
+}

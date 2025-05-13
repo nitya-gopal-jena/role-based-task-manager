@@ -57,3 +57,60 @@
     transform: translateY(-1px);
     transition: all 0.3s ease;
 }
+
+
+
+/* Medium Devices (Tablets & Small Laptops) */
+@media (max-width: 1024px) {
+  .add-task-container {
+    width: 90%;
+    padding: 25px;
+    margin: 40px auto;
+  }
+}
+
+/* Small Devices (Tablets & Large Phones) */
+@media (max-width: 768px) {
+  .add-task-container {
+    width: 95%;
+    padding: 20px;
+  }
+
+  .form-group label {
+    font-size: 13px;
+  }
+
+  #dropdown {
+    padding: 12px;
+  }
+
+  .task-add-btn {
+    font-size: 14px;
+    padding: 10px;
+    width: 100%;
+  }
+}
+
+/* Extra Small Devices (Phones) */
+@media (max-width: 480px) {
+  .add-task-container {
+    width: 100%;
+    border-radius: 0;
+    padding: 16px;
+    box-shadow: none;
+  }
+
+  .form-group label {
+    font-size: 12px;
+  }
+
+  #dropdown {
+    font-size: 14px;
+  }
+
+  .task-add-btn {
+    font-size: 13px;
+    padding: 10px;
+    width: 100%;
+  }
+}

@@ -154,3 +154,122 @@
     background-color: #95a5a6;
     border-radius: 8px;
 }
+
+
+
+
+
+/* Media query to make page responsive  */
+
+/* Medium devices (tablets, 768px and up) */
+@media (max-width: 1024px) {
+    .dashboard-container {
+        flex-direction: column;
+        width: 90%;
+        height: auto;
+        margin: 80px auto;
+    }
+
+    .sidebar {
+        width: 100%;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 20px;
+    }
+
+    .sidebar .logo {
+        margin-bottom: 0;
+        font-size: 20px;
+    }
+
+    .sidebar-menu {
+        flex-direction: row;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .logout-button {
+        margin-top: 0;
+    }
+
+    .main-content {
+        padding: 16px;
+    }
+
+    .dashboard-content {
+        margin-top: 30px;
+        flex-wrap: wrap;
+    }
+}
+
+
+@media (max-width: 1024px) {
+    .dashboard-container {
+        flex-direction: column;
+        width: 95%;
+        margin: 80px auto;
+        height: auto;
+    }
+
+    .dashboard-main-container {
+        position: static;
+        height: auto;
+    }
+}
+
+@media (max-width: 990px) {
+    .dashboard-main-container {
+        position: static;
+        height: auto;
+    }
+
+    .dashboard-container {
+        flex-direction: column;
+        width: 95%;
+        height: auto;
+        margin: 80px auto;
+    }
+}
+
+
+/* Small devices (phones, 600px and down) */
+@media (max-width: 600px) {
+    .dashboard-container {
+        width: 95%;
+        margin: 60px auto;
+    }
+
+    .sidebar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .sidebar-menu {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .sidebar-menu button {
+        width: 100%;
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .logout-button a {
+        width: 100%;
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .dashboard-content {
+        flex-direction: column;
+        gap: 16px;
+        overflow-x: visible;
+    }
+
+    .card {
+        font-size: 16px;
+        padding: 20px;
+    }
+}

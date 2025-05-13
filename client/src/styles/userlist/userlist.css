@@ -185,3 +185,104 @@ hr {
     font-size: 16px;
   }
   
+
+
+
+  /* Medium Devices (Tablets & Small Laptops) */
+@media (max-width: 1024px) {
+  .main-container {
+    width: 95%;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 4rem;
+  }
+
+  .user-table-container {
+    padding: 1rem;
+  }
+
+  .pagination-container {
+    gap: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .pagination-info {
+    font-size: 14px;
+  }
+}
+
+/* Small Devices (Tablets & Large Phones) */
+@media (max-width: 768px) {
+  .main-container {
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .users-title {
+    font-size: 1.3rem;
+  }
+
+  .users-no {
+    font-size: 0.9rem;
+  }
+
+  .pagination-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .pagination-btn {
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+
+  .pagination-info {
+    font-size: 13px;
+  }
+}
+
+/* Extra Small Devices (Phones) */
+@media (max-width: 480px) {
+  .main-container {
+    flex-direction: column;
+    width: 100%;
+    margin: 2rem 0;
+  }
+
+  .user-table-container {
+    padding: 0.8rem;
+    border-radius: 0.8rem;
+  }
+
+  .users-title {
+    font-size: 1.1rem;
+  }
+
+  .users-no {
+    font-size: 0.85rem;
+  }
+
+  .user-table {
+    min-width: 600px; /* Keeps table scrollable */
+  }
+
+  .pagination-btn {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+
+  .pagination-info {
+    font-size: 12px;
+  }
+
+  .edit-btn,
+  .delete-btn {
+    width: 32px;
+    height: 32px;
+  }
+
+  .edit-btn-icon,
+  .delete-btn-icon {
+    font-size: 1rem;
+  }
+}

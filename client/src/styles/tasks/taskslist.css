@@ -104,7 +104,7 @@ hr {
 
 /* Buttons styling */
 
-.add-task-btn{
+.add-task-btn {
     padding: 12px;
     border: none;
     border-radius: 5px;
@@ -115,7 +115,7 @@ hr {
     transition: background 0.3s ease, transform 0.2s ease;
 }
 
-.add-task-btn{
+.add-task-btn {
     background-color: #01654c;
     color: white;
 }
@@ -184,24 +184,137 @@ hr {
     align-items: center;
     margin-top: 20px;
     gap: 6rem;
-  }
-  
-  .pagination-btn {
+}
+
+.pagination-btn {
     padding: 8px 16px;
     background-color: #007bff;
     border: none;
     color: white;
     cursor: pointer;
     border-radius: 4px;
-  }
-  
-  .pagination-btn:disabled {
+}
+
+.pagination-btn:disabled {
     background-color: #ccc;
     cursor: not-allowed;
-  }
-  
-  .pagination-info {
+}
+
+.pagination-info {
     font-weight: bold;
     font-size: 16px;
-  }
-  
+}
+
+
+
+
+
+/* Medium Devices (Tablets & Small Laptops) */
+@media (max-width: 1024px) {
+    .main-container {
+        width: 90%;
+        margin-bottom: 3rem;
+    }
+
+    .task-table-container {
+        padding: 1rem;
+    }
+
+    .task-table {
+        min-width: 100%;
+        font-size: 14px;
+    }
+
+    .task-table td {
+        padding: 0.8rem;
+    }
+
+    .task-table th,
+    .task-table td {
+        font-size: 14px;
+        padding: 0.8rem;
+    }
+
+    .add-task-btn {
+        width: 8rem;
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .pagination-container {
+        gap: 3rem;
+    }
+}
+
+/* Small Devices (Tablets & Large Phones) */
+@media (max-width: 768px) {
+    .main-container {
+        width: 95%;
+    }
+
+    .task-table-container {
+        padding: 1rem;
+    }
+
+    .task-table {
+        min-width: 100%;
+        font-size: 12px;
+    }
+
+    .task-table td {
+        padding: 0.6rem;
+    }
+
+    .task-table th,
+    .task-table td {
+        font-size: 12px;
+        padding: 0.6rem;
+    }
+
+    .add-task-btn {
+        width: 100%;
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .pagination-container {
+        gap: 2rem;
+    }
+}
+
+/* Extra Small Devices (Phones) */
+@media (max-width: 480px) {
+    .main-container {
+        width: 100%;
+    }
+
+    .task-table-container {
+        padding: 0.8rem;
+    }
+
+    .task-table {
+        min-width: 100%;
+        font-size: 12px;
+    }
+
+    .task-table td {
+        padding: 0.5rem;
+    }
+
+    .task-table th,
+    .task-table td {
+        font-size: 12px;
+        padding: 0.5rem;
+    }
+
+    .add-task-btn {
+        width: 100%;
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    .pagination-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
