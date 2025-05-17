@@ -74,8 +74,7 @@ const TasksList = ({ showUserTasks = false }) => {
       alert(response.data.message);
       // window.location.reload();
     } catch (error) {
-      console.error('Error deleting user:', error);
-      alert(error?.response?.data?.message || 'Failed to delete task');
+      alert('Failed to delete task', error);
     }
   };
 

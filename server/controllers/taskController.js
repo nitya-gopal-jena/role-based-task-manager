@@ -1,5 +1,6 @@
 import Task from '../models/Task.js';
 import User from '../models/User.js';
+import Notification from '../models/Notification.js';
 import jwt from 'jsonwebtoken';
 import { configDotenv } from 'dotenv';
 configDotenv();
@@ -50,6 +51,16 @@ export const assignTask = async (req, res) => {
     });
 
     await task.save();
+
+    // Create notification AFTER task is saved
+    await Notification.create({
+      userId: assignToId,
+      taskId: task._id,
+      type: "task-added",
+      message: `A new task "${title}" was assigned to you.`,
+
+    });
+
     return res.status(200).json({ message: 'Task assign successfully' });
   } catch (error) {
     return res.status(500).json({ message: 'Error when assign a task !', msg: error.message });
@@ -198,6 +209,14 @@ export const updateTaskById = async (req, res) => {
       return res.status(400).json({ message: 'Assigned user not found!' });
     }
 
+    // Fetch all old values before update
+    const oldValues = {
+      title: task.title,
+      description: task.description,
+      status: task.status,
+      dueDate: task.dueDate?.toISOString(),
+    };
+
     // Update fields explicitly
     task.title = req.body.title;
     task.description = req.body.description;
@@ -207,6 +226,37 @@ export const updateTaskById = async (req, res) => {
     task.dueDate = req.body.dueDate;
 
     await task.save();
+
+    // Create a notification for update task
+
+    if (req.body.title && req.body.title !== oldValues.title) {
+      await Notification.create({
+        userId: task.assignToId,
+        taskId: task._id,
+        type: "task-updated",
+        message: `Your task title was updated from "${oldValues.title}" to "${task.title}".`
+      });
+    };
+    if (req.body.description && req.body.description !== oldValues.description) {
+      await Notification.create({
+        userId: task.assignToId,
+        taskId: task._id,
+        type: "task-updated",
+        message: `Your task description was updated from "${oldValues.description}" to "${task.description}".`
+      });
+    };
+
+    if (req.body.status && req.body.status !== oldValues.status) {
+      await Notification.create({
+        userId: task.assignToId,
+        taskId: task._id,
+        type: "task-updated",
+        message: `Your task  "${task.title}" status updated from "${oldValues.status} to "${task.status}".`
+      });
+    };
+
+
+
 
     return res.status(200).json({ message: 'Task updated successfully', task });
   } catch (error) {
@@ -224,17 +274,26 @@ export const deleteTask = async (req, res) => {
     const task = await Task.findById(taskId)
     if (!task) {
       return res.status(200).json({ message: 'Task not found' })
-    } else {
-      await Task.deleteOne({ _id: taskId });
     }
 
     if (currentUserRole != ROLE_ADMIN) {
-      if (task.assignToId == currentUserId) {
+      if (task.assignToId == currentUserId ){
         return res.status(200).json({ message: 'Task delete successfully' });
       } else {
         return res.status(400).json({ message: 'Can not delete any others tasks' });
       }
     }
+
+    await Task.deleteOne({ _id: taskId })
+
+    // Create notification AFTER task is saved
+    await Notification.create({
+      userId: task.assignToId,
+      taskId: task._id,
+      type: "task-deleted",
+      message: `Your task "${task.title}" has been deleted.`,
+    });
+
 
     return res.status(200).json({ message: 'Task delete successfully' })
 
