@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from 'react';
-import '../../styles/edit page/edittask.css';
 import { useParams } from 'react-router-dom';
+import '../../styles/tasks/edittask.css'
 import axios from 'axios';
 
 const EditTask = () => {

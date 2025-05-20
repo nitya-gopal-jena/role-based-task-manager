@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import '../../styles/changepass.css';
+import '../../styles/users/changepass.css';
 
 const ChangePassword = () => {
   const [error, setError] = useState('');

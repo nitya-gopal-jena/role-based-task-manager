@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import '../../styles/userlist/updateuserprofile.css';
+import '../../styles/users/updateuserprofile.css';
 
 
 const UpdateUserProfile = () => {

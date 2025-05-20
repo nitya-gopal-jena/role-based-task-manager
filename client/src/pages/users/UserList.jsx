@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { MdEditSquare, MdDelete } from 'react-icons/md';
-import '../../styles/userlist/userlist.css';
+import '../../styles/users/userlist.css';
 
 const UserList = () => {
   const [userlist, setUserList] = useState([]);

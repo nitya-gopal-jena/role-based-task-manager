@@ -11,9 +11,9 @@ import PrivateRoute from './components/private/PrivateRoute';
 import PrivateAdminRoute from './components/private/PrivateAdminRoue';
 import Dashboard from './pages/admin/DashBoard';
 import UserList from './pages/users/UserList';
-import TasksList from './pages/tasks/TasksList';
-import EditTask from './pages/edit page/EditTask';
-import AddTask from './pages/tasks/AddTask';
+import TasksList from './pages/tasks/TasksList'
+import EditTask from './pages/tasks/EditTask';
+import AddTask from './pages/tasks/AddTask'
 import UpdateUserProfile from './pages/users/UpdateUserProfile';
 
 import './styles/app.css';

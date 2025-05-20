@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import '../../styles/editprofile.css';
+import '../../styles/users/editprofile.css';
 
 const EditProfile = () => {
   const [user, setUser] = useState({

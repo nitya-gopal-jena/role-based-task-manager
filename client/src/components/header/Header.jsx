@@ -5,6 +5,7 @@ import { IoLogOut } from 'react-icons/io5';
 import { FaTasks } from 'react-icons/fa';
 import { BiSolidDashboard } from 'react-icons/bi';
 import { GiHamburgerMenu } from 'react-icons/gi';
+import { IoMdNotifications } from 'react-icons/io';
 import { toast } from 'react-toastify';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import '../../styles/header.css';
@@ -14,14 +15,16 @@ const Header = () => {
   const [username, setUsername] = useState(localStorage.getItem('username') || '');
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [showNotifications, setShowNotifications] = useState(false);
   const dropdownRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
 
-
   useEffect(() => {
     setUsername(getCurrentUserName());
-    
+
     if (location.pathname === '/edit-profile') {
       setDropdownOpen(false);
     }
@@ -65,8 +68,6 @@ const Header = () => {
 
           <nav className='nav-menu'>
             <div className='auth-links'>
-             
-
               <div className={`nav-link ${isMobileMenuOpen ? 'show-menu' : ''}`}>
                 <Link to='/all-tasks-list' className='links-group'>
                   List Task
@@ -83,6 +84,10 @@ const Header = () => {
                   <BiSolidDashboard className='dash-icon' />
                   Dashboard
                 </Link>
+              </div>
+
+              <div className='notification'>
+                <IoMdNotifications className='notification-icon' />
               </div>
 
               <div className='user-dropdown' ref={dropdownRef} onClick={handleClickOutside}>
@@ -102,7 +107,7 @@ const Header = () => {
                   </div>
                 )}
               </div>
-               <GiHamburgerMenu className='hamburger-icon' onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
+              <GiHamburgerMenu className='hamburger-icon' onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
             </div>
           </nav>
         </div>

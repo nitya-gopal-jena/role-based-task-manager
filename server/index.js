@@ -3,12 +3,20 @@ import connectDB from './config/db.js';
 import { configDotenv } from 'dotenv'
 configDotenv();
 import cors from 'cors'
+import { Server } from 'socket.io';
+import {createServer} from 'http'
+
+
 import userRoutes from './routes/userRoutes.js';
 import taskRoutes from './routes/taskRoutes.js'
 
 
-
 const app = express();
+const server = createServer(app);
+
+const io = new Server(server)
+
+
 
 // Middlewares API 
 app.use(cors({ origin: "http://localhost:5173" })) // Integration of front-end to back-end
