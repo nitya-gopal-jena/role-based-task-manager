@@ -54,12 +54,7 @@ const Login = () => {
       handleAutoLogout(token);
 
       toast.success(response?.data?.message);
-
-      if (role === 'admin') {
-        navigate('/dashboard');
-      } else {
-        navigate('/home');
-      }
+      navigate('/home')
     } catch (error) {
       toast.error(error.response?.data?.message || 'Login failed!');
     }

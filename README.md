@@ -49,3 +49,10 @@
 | ----- | --------------------------------------- |
 | Admin | Full access to users and tasks          |
 | User  | Can view and update assigned tasks only |
+
+### 🔒 Security Features
+
+- Input validation on frontend and backend
+- Protected routes with role checks
+- CORS and rate limiting configured
+

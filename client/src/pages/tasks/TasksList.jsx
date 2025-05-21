@@ -35,7 +35,9 @@ const TasksList = ({ showUserTasks = false }) => {
     const fetchTasksList = async () => {
       try {
         const token = localStorage.getItem('token');
-        const url = showUserTasks ? `http://localhost:5000/api/tasks/mytasks?page=${currentPage}&limit=${TASKS_PER_PAGE}` : `http://localhost:5000/api/tasks/?page=${currentPage}&limit=${TASKS_PER_PAGE}`;
+        const url = showUserTasks
+          ? `http://localhost:5000/api/tasks/mytasks?page=${currentPage}&limit=${TASKS_PER_PAGE}`
+          : `http://localhost:5000/api/tasks/?page=${currentPage}&limit=${TASKS_PER_PAGE}`;
 
         const response = await axios.get(url, {
           headers: {
@@ -56,8 +58,6 @@ const TasksList = ({ showUserTasks = false }) => {
     fetchTasksList();
   }, [currentPage]);
 
-
-  
   // Delete the task  from database
   const handleDeleteTask = async (taskId) => {
     const confirmDelete = window.confirm('Are you sure you want to delete this task ?');
@@ -88,7 +88,6 @@ const TasksList = ({ showUserTasks = false }) => {
     navigate('/add-task');
   };
 
-
   // Next/Prev button for pagination
   const goToNextPage = () => {
     if (currentPage < pages) setCurrentPage(currentPage + 1);
@@ -97,8 +96,6 @@ const TasksList = ({ showUserTasks = false }) => {
   const goToPrevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
-
-
 
   return (
     <>
@@ -158,11 +155,15 @@ const TasksList = ({ showUserTasks = false }) => {
 
           {/* Pagination Buttons */}
           <div className='pagination-container'>
-            <button className='pagination-btn' onClick={goToPrevPage} disabled= {currentPage=== 1} >Prev</button>
+            <button className='pagination-btn' onClick={goToPrevPage} disabled={currentPage === 1}>
+              Prev
+            </button>
             <span className='pagination-info'>
               Page {currentPage} of {pages}
             </span>
-            <button className='pagination-btn' onClick={goToNextPage} disabled={currentPage === pages}>Next</button>
+            <button className='pagination-btn' onClick={goToNextPage} disabled={currentPage === pages}>
+              Next
+            </button>
           </div>
         </div>
       </div>

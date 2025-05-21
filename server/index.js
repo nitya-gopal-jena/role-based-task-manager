@@ -6,15 +6,20 @@ import cors from 'cors'
 import { Server } from 'socket.io';
 import {createServer} from 'http'
 
-
 import userRoutes from './routes/userRoutes.js';
 import taskRoutes from './routes/taskRoutes.js'
+
 
 
 const app = express();
 const server = createServer(app);
 
 const io = new Server(server)
+
+io.on("connection", (socket) => {
+  
+})
+
 
 
 
