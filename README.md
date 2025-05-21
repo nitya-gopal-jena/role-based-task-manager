@@ -46,9 +46,6 @@
 
 ---
 
-## 📌 Features & Functionalities (Step-by-Step)
-
----
 
 ### 🔐 Roles & Permissions
 
@@ -56,6 +53,11 @@
 | ----- | --------------------------------------- |
 | Admin | Full access to users and tasks          |
 | User  | Can view and update assigned tasks only |
+
+---
+
+## 📌 Features & Functionalities (Step-by-Step)
+
 
 ### 1. 🔐 User Authentication & Authorization
 
