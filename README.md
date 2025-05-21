@@ -27,6 +27,8 @@
 | **CSS**                 | Styling the components                   |
 | **Context API / Hooks** | State and authentication management      |
 | **LocalStorage**        | Store auth tokens/user data in browser   |
+| **Socket.IO Client**    | Real-time event handling (for live notifications) |
+| **Responsive Design**   | Mobile-friendly layouts using CSS techniques      |
 
 ### 🧰 Backend Tech Stack
 
@@ -40,19 +42,31 @@
 | **bcrypt.js**     | Password hashing                       |
 | **dotenv**        | Environment variable management        |
 | **CORS**          | Cross-Origin Resource Sharing          |
+| **Socket.IO**     | Real-time communication (for notifications) |
 
 ---
 
-## 🔐 Roles & Permissions
+## 📌 Features & Functionalities (Step-by-Step)
+
+---
+
+### 🔐 Roles & Permissions
 
 | Role  | Permissions                             |
 | ----- | --------------------------------------- |
 | Admin | Full access to users and tasks          |
 | User  | Can view and update assigned tasks only |
 
-### 🔒 Security Features
+### 2. 🔒 Security Features
 
 - Input validation on frontend and backend
 - Protected routes with role checks
 - CORS and rate limiting configured
+
+### 3. 🧑‍💼 User Management (Admin Panel)
+- Admin can:
+  - View all registered users
+  - Edit user details (name, email, role)
+  - Delete users
+- Pagination and search functionality for large user bases.
 
