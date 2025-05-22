@@ -129,6 +129,11 @@ hr {
   transition: all 0.3s ease;
 }
 
+.add-task-btn:hover{
+  background-color:#013f4e ;
+
+}
+
 .edit-btn,
 .delete-btn {
   display: inline-flex;

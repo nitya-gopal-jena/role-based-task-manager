@@ -106,7 +106,7 @@ const UserList = () => {
             <div className='search-container'>
               <div className='search-input-wrapper'>
                 <MdSearch className='search-icon' />
-                <input type='text' placeholder='Search tasks...' value={searchQuery} onChange={handleSearchChange} className='search-input' />
+                <input type='text' placeholder='Search users...' value={searchQuery} onChange={handleSearchChange} className='search-input' />
               </div>
             </div>
           </div>

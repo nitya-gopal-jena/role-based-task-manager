@@ -69,9 +69,6 @@ const About = () => {
               platform
             </li>
             <li>
-              <span className="benefits-icon">💬</span> 24/7 customer support
-            </li>
-            <li>
               <span className="benefits-icon">🔄</span> Regular updates and
               improvements
             </li>
