@@ -12,6 +12,7 @@
 - 🔒 **Secure Password Handling**
 - 🧠 Responsive and intuitive UI
 - 🛡️ Secure API endpoints
+- 📁 **Filtering & Sorting** of tasks and notifications
 - ⚡ Fast build with **Vite**
 
 ---
