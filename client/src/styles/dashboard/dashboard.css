@@ -1,108 +1,105 @@
 .dashboard-main-container {
-    position: fixed;
-    background: #210148;
+    position: relative;
+    min-height: 100vh;
     width: 100%;
-    height: 100%;
-    top: 0px;
-    left: 0px;
+    padding: 20px 0;
+    background: #261641;
 }
 
 .dashboard-container {
     display: flex;
-    width: 80rem;
-    height: 80vh;
+    width: 90%;
+    max-width: 1400px;
+    min-height: 80vh;
     font-family: "Segoe UI", sans-serif;
     background: #1E0439;
-    box-shadow: 0 5px 10px rgba(255, 255, 255, 0.1);
-    margin: 120px auto;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    margin: 80px auto;
+    border-radius: 16px;
+    overflow: hidden;
 }
 
-
 .sidebar {
-    width: 220px;
+    width: 280px;
     background-color: #2c3e50;
     color: #fff;
     display: flex;
     flex-direction: column;
-    padding: 20px;
+    padding: 24px;
     justify-content: space-between;
+    transition: all 0.3s ease;
 }
 
-
 .sidebar .logo {
-    font-size: 24px;
-    margin-bottom: 30px;
+    font-size: 28px;
+    margin-bottom: 40px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
 }
 
 .sidebar-menu {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
 }
-
 
 .sidebar-menu button {
     background-color: #34495e;
     color: #ecf0f1;
     border: none;
-    border-radius: 8px;
-    padding: 12px 16px;
+    border-radius: 12px;
+    padding: 14px 20px;
     margin: 4px 0;
     font-size: 16px;
     font-weight: 500;
     text-align: left;
     cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
 }
 
 .sidebar-menu button:hover {
     background-color: #3d566e;
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.sidebar-menu .dashboard-icon {
-    vertical-align: middle;
-    margin-right: 5px;
-    font-size: 1.2rem;
-    color: #05a7bc;
-}
-
+.sidebar-menu .dashboard-icon,
 .sidebar-menu .user-list-icon {
-    vertical-align: middle;
-    margin-right: 5px;
-    font-size: 1.2rem;
+    margin-right: 12px;
+    font-size: 1.3rem;
     color: #05a7bc;
-}
-
-.logout-button {
-    margin-top: auto;
 }
 
 .main-content {
     flex-grow: 1;
-    padding: 20px;
+    padding: 32px;
+    /* overflow-y: auto; */
 }
-
 
 .dashboard-content {
-    display: flex;
-    gap: 20px;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    padding-bottom: 10px;
-    margin-top: 50px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    padding: 20px 0;
 }
-
 
 .card {
     background-color: #ffffff;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    padding: 28px;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
     font-size: 18px;
     font-weight: 500;
     cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
 .logout-button a {
@@ -112,27 +109,145 @@
     background-color: #e74c3c;
     color: white;
     text-align: center;
-    padding: 12px 16px;
-    border-radius: 8px;
+    padding: 14px 20px;
+    border-radius: 12px;
     text-decoration: none;
     font-weight: 600;
     font-size: 16px;
-    transition: background 0.3s ease, transform 0.2s ease;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-    gap: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    gap: 10px;
 }
 
 .logout-button a:hover {
     background-color: #c0392b;
     transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
-.logout-icon {
-    font-size: 20px;
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .dashboard-container {
+        width: 95%;
+        margin: 60px auto;
+    }
+    
+    .sidebar {
+        width: 240px;
+    }
 }
 
+@media (max-width: 992px) {
+    .dashboard-container {
+        flex-direction: column;
+        width: 95%;
+        margin: 60px auto;
+    }
 
+    .sidebar {
+        width: 100%;
+        flex-direction: row;
+        align-items: center;
+        padding: 16px 24px;
+    }
 
+    .sidebar .logo {
+        margin-bottom: 0;
+        font-size: 24px;
+    }
+
+    .sidebar-menu {
+        flex-direction: row;
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .sidebar-menu button {
+        padding: 12px 16px;
+        font-size: 15px;
+    }
+
+    .main-content {
+        padding: 24px;
+    }
+
+    .dashboard-content {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-container {
+        margin: 40px auto;
+    }
+
+    .sidebar {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .sidebar-menu {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .sidebar-menu button {
+        width: 100%;
+    }
+
+    .logout-button {
+        width: 100%;
+        margin-top: 16px;
+    }
+
+    .logout-button a {
+        width: 100%;
+    }
+
+    .main-content {
+        padding: 20px;
+    }
+
+    .card {
+        padding: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-container {
+        width: 100%;
+        margin: 20px auto;
+        border-radius: 0;
+    }
+
+    .dashboard-main-container {
+        padding: 0;
+    }
+
+    .sidebar {
+        padding: 16px;
+    }
+
+    .sidebar .logo {
+        font-size: 22px;
+    }
+
+    .main-content {
+        padding: 16px;
+    }
+
+    .dashboard-content {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .card {
+        padding: 20px;
+        font-size: 16px;
+    }
+}
 
 /* For UserList scroll bar  */
 .user-list-scroll {
@@ -153,123 +268,4 @@
 .user-list-scroll::-webkit-scrollbar-thumb {
     background-color: #95a5a6;
     border-radius: 8px;
-}
-
-
-
-
-
-/* Media query to make page responsive  */
-
-/* Medium devices (tablets, 768px and up) */
-@media (max-width: 1024px) {
-    .dashboard-container {
-        flex-direction: column;
-        width: 90%;
-        height: auto;
-        margin: 80px auto;
-    }
-
-    .sidebar {
-        width: 100%;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        padding: 15px 20px;
-    }
-
-    .sidebar .logo {
-        margin-bottom: 0;
-        font-size: 20px;
-    }
-
-    .sidebar-menu {
-        flex-direction: row;
-        gap: 8px;
-        flex-wrap: wrap;
-    }
-
-    .logout-button {
-        margin-top: 0;
-    }
-
-    .main-content {
-        padding: 16px;
-    }
-
-    .dashboard-content {
-        margin-top: 30px;
-        flex-wrap: wrap;
-    }
-}
-
-
-@media (max-width: 1024px) {
-    .dashboard-container {
-        flex-direction: column;
-        width: 95%;
-        margin: 80px auto;
-        height: auto;
-    }
-
-    .dashboard-main-container {
-        position: static;
-        height: auto;
-    }
-}
-
-@media (max-width: 990px) {
-    .dashboard-main-container {
-        position: static;
-        height: auto;
-    }
-
-    .dashboard-container {
-        flex-direction: column;
-        width: 95%;
-        height: auto;
-        margin: 80px auto;
-    }
-}
-
-
-/* Small devices (phones, 600px and down) */
-@media (max-width: 600px) {
-    .dashboard-container {
-        width: 95%;
-        margin: 60px auto;
-    }
-
-    .sidebar {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .sidebar-menu {
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .sidebar-menu button {
-        width: 100%;
-        font-size: 14px;
-        padding: 10px;
-    }
-
-    .logout-button a {
-        width: 100%;
-        font-size: 14px;
-        padding: 10px;
-    }
-
-    .dashboard-content {
-        flex-direction: column;
-        gap: 16px;
-        overflow-x: visible;
-    }
-
-    .card {
-        font-size: 16px;
-        padding: 20px;
-    }
 }

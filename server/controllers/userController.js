@@ -43,7 +43,7 @@ export const login = async (req, res) => {
         const { email, password } = req.body;
 
         // Check if user exist or not
-        const user = await User.findOne({ $or: [{ email }, { username: email }]});
+        const user = await User.findOne({ $or: [{ email }, { username: email }] });
         if (!user) {
             return res.status(400).json({ message: 'User not found !' });
         }
@@ -73,6 +73,7 @@ export const allUsersList = async (req, res) => {
 
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 10;
+        const searchQuery = req.query.search;
 
         if (page <= 0 || limit <= 0) {
             return res.status(400).json({ message: 'Page and limit must be positive numbers.' });
@@ -80,9 +81,18 @@ export const allUsersList = async (req, res) => {
 
         const skip = (page - 1) * limit;
 
+        let filters = {};
+        if (searchQuery) {
+            filters.$or = [
+                { name: { $regex: searchQuery, $options: 'i' } },
+                { username: { $regex: searchQuery, $options: 'i' } },
+                { email: { $regex: searchQuery, $options: 'i' } }
+            ];
+        }
+
         const [users, total] = await Promise.all([
-            User.find().skip(skip).limit(limit).sort({ createdAt: -1 }),
-            User.countDocuments()
+            User.find(filters).skip(skip).limit(limit).sort({ createdAt: -1 }),
+            User.countDocuments(filters)
         ]);
 
         return res.status(200).json({
@@ -233,32 +243,32 @@ export const changePassword = async (req, res) => {
         const { currentPassword, newPassword, confirmPassword } = req.body;
 
         if (!currentPassword || !newPassword || !confirmPassword) {
-            return res.status(400).json({message:'All fields are required '})
+            return res.status(400).json({ message: 'All fields are required ' })
         }
 
         if (newPassword !== confirmPassword) {
-            return res.status(400).json({message:'The new password and the confirmation password must be the same'})
+            return res.status(400).json({ message: 'The new password and the confirmation password must be the same' })
         }
 
         if (newPassword.length < 6 || newPassword.length > 20) {
-            return res.status(400).json({message:'Password must be between 6 and 20 characters'})
+            return res.status(400).json({ message: 'Password must be between 6 and 20 characters' })
         }
 
         const user = await User.findById(currentUserId);
         if (!user) {
-            return res.status(404).json({message:'User not found'})
+            return res.status(404).json({ message: 'User not found' })
         }
 
         const isMatch = await bcrypt.compare(currentPassword, user.password);
         if (!isMatch) {
-            return res.status(400).json({message:'Current password is incorrect'})
+            return res.status(400).json({ message: 'Current password is incorrect' })
         }
 
         const hashedPassword = await bcrypt.hash(newPassword, 10);
         user.password = hashedPassword;
         await user.save();
 
-        return res.status(200).json({message:'Password change successfully'})
+        return res.status(200).json({ message: 'Password change successfully' })
 
     } catch (error) {
         return res.status(500).json({ message: 'Something went wrong when change password' })
@@ -307,7 +317,7 @@ export const deleteProfile = async (req, res) => {
 // Delete the users profile from database by admin
 export const deleteUserProfile = async (req, res) => {
     try {
-     
+
         const currentUserId = getCurrentUserId(req);
         const currentUserRole = getCurrentUserRole(req);
 
@@ -376,5 +386,3 @@ export const getUserIdandName = async (req, res) => {
         return res.status(500).json({ message: 'Failed to fetch the user id and name ' })
     }
 };
-
-

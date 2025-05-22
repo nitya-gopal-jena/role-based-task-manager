@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 import '../../styles/users/editprofile.css';
 
 const EditProfile = () => {
@@ -25,7 +26,7 @@ const EditProfile = () => {
         });
         setUser(response.data.user);
       } catch (err) {
-        setError('Failed to fetch user data.');
+        toast.error('Failed to fetch user data.');
       }
     };
 

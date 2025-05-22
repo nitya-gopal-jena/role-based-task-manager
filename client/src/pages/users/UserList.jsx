@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { MdEditSquare, MdDelete } from 'react-icons/md';
+import { MdEditSquare, MdDelete, MdSearch } from 'react-icons/md';
+import { toast } from 'react-toastify';
 import '../../styles/users/userlist.css';
 
 const UserList = () => {
@@ -10,6 +11,7 @@ const UserList = () => {
   const [pages, setPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [error, setError] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
 
   const USERS_PER_PAGE = 10;
@@ -18,13 +20,17 @@ const UserList = () => {
     const fetchUserList = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get(`http://localhost:5000/api/users/alluserlist?page=${currentPage}&limit=${USERS_PER_PAGE}`, {
+        const url = `http://localhost:5000/api/users/alluserlist?page=${currentPage}&limit=${USERS_PER_PAGE}${searchQuery ? `&search=${searchQuery}` : ''}`;
+
+        const response = await axios.get(url, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        setUserList(response.data.userdata); 
+
+        setUserList(response.data.userdata);
         setPages(response.data.pages);
+        setTotalUsers(response.data.total);
       } catch (error) {
         setError('Failed to fetch user list: Admin only');
       }
@@ -41,13 +47,19 @@ const UserList = () => {
         });
         setTotalUsers(response.data.totalUsers);
       } catch (error) {
-        console.log('failed to fetch total no of users', error);
+        toast.error('failed to fetch total no of users', error);
       }
     };
 
     fetchTotalUsersNo();
     fetchUserList();
-  }, [currentPage]);
+  }, [currentPage, searchQuery]);
+
+  // Handle search input change
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+    setCurrentPage(1); // Reset to first page when searching
+  };
 
   const handleEditUser = (userId) => {
     navigate(`/edit-user/${userId}`);
@@ -65,12 +77,11 @@ const UserList = () => {
         },
       });
 
-      alert(response.data.message);
+      toast.success(response.data.message);
       // Refresh current page data after deletion
       setUserList((prev) => prev.filter((user) => user._id !== userId));
     } catch (error) {
-      console.error('Error deleting user:', error);
-      alert(error?.response?.data?.message || 'Failed to delete user');
+      toast.error(error?.response?.data?.message || 'Failed to delete user');
     }
   };
 
@@ -89,8 +100,19 @@ const UserList = () => {
         <div className='header-content'>
           <h3 className='users-title'>Users List</h3>
           <span className='users-no'>No of users: {totalUsers}</span>
+
+          <div className='header-right'>
+            {/* Search Bar */}
+            <div className='search-container'>
+              <div className='search-input-wrapper'>
+                <MdSearch className='search-icon' />
+                <input type='text' placeholder='Search tasks...' value={searchQuery} onChange={handleSearchChange} className='search-input' />
+              </div>
+            </div>
+          </div>
         </div>
         <hr />
+
         {error && <p className='error-message'>{error}</p>}
         <div className='table-wrapper'>
           <table className='user-table'>

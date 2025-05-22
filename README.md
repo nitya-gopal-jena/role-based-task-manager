@@ -7,8 +7,11 @@
 - 🔐 **Role-Based Authentication** (Admin, User)
 - 🧑‍💼 **User Management** (Admin can add, edit, delete users)
 - ✅ **Task Management** (Create, assign, update, delete tasks)
-- 🕒 **Auto Logout** on inactivity
+- 📢 Real-time notifications via Socket.IO
+- ⏳ Auto-logout after inactivity
 - 🔒 **Secure Password Handling**
+- 🧠 Responsive and intuitive UI
+- 🛡️ Secure API endpoints
 - ⚡ Fast build with **Vite**
 
 ---

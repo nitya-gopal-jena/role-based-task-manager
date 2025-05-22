@@ -26,7 +26,7 @@ const Home = () => {
 
         {/* Features Section */}
         <section className='features-section'>
-          <h2 className='section-title'>Why Choose Us?</h2>
+          <h2 className='section-title'>Why Choose T~Manage?</h2>
           <div className='features-grid'>
             <div className='feature-card'>
               <div className='feature-icon'>🚀</div>
@@ -52,6 +52,11 @@ const Home = () => {
               <div className='feature-icon'>🔒</div>
               <h3>Secure Password</h3>
               <p>Secure authentication & token handling</p>
+            </div>
+            <div className='feature-card'>
+              <div className='feature-icon'>🔔</div>
+              <h3>Smart Notifications</h3>
+              <p>Real-time alerts for task updates and assignments</p>
             </div>
             <div className='feature-card'>
               <div className='feature-icon'>🔄</div>

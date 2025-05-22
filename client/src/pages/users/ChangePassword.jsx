@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import '../../styles/users/changepass.css';
 
 const ChangePassword = () => {
@@ -14,7 +15,7 @@ const ChangePassword = () => {
     e.preventDefault();
 
     if (newPassword !== confirmPassword) {
-      setError('The new password and the confirm password must be the same');
+      toast.error('The new password and the confirm password must be the same');
       return;
     }
 
@@ -33,14 +34,14 @@ const ChangePassword = () => {
         }
       );
 
-      alert(response.data.message);
+      toast.success(response.data.message);
       navigate('/edit-profile');
       setError('');
       setCurrentPassword('');
       setNewPassword('');
       setConfirmPassword('');
     } catch (error) {
-      setError(error.response?.data?.message || 'Failed to change password');
+      toast.error(error.response?.data?.message || 'Failed to change password');
     }
   };
 

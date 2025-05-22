@@ -1,6 +1,7 @@
 import { React, useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import '../../styles/tasks/edittask.css'
+import { useParams, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import '../../styles/tasks/edittask.css';
 import axios from 'axios';
 
 const EditTask = () => {
@@ -8,7 +9,8 @@ const EditTask = () => {
   const [error, setError] = useState('');
   const [users, setUsers] = useState([]);
   const [selectedUserId, setSelectedUserId] = useState('');
-
+  const navigate = useNavigate();
+  
   const [task, setTask] = useState({
     title: '',
     description: '',
@@ -30,8 +32,7 @@ const EditTask = () => {
         setTask(response.data.task);
         setSelectedUserId(response.data.task.assignToId);
       } catch (error) {
-        setError('Failed to fetch task data');
-        console.error(error);
+        toast.error('Failed to fetch task data');
       }
     };
 
@@ -46,7 +47,7 @@ const EditTask = () => {
 
         setUsers(response.data.users);
       } catch (error) {
-        setError('Failed to fetch users');
+        toast.error('Failed to fetch users');
       }
     };
 
@@ -61,12 +62,11 @@ const EditTask = () => {
       ...prevTask,
       [name]: value,
     }));
-  
+
     if (name === 'assignToId') {
       setSelectedUserId(value);
     }
   };
-  
 
   // Update the task
   const handleSubmit = async (e) => {
@@ -79,10 +79,11 @@ const EditTask = () => {
         },
       });
 
-      alert('Task updated successfully!');
+      toast.success('Task updated successfully!');
+      navigate('/all-tasks-list');
+      navi;
     } catch (error) {
-      setError(error?.response?.data?.message || 'Failed to update task');
-
+      toast.error(error?.response?.data?.message || 'Failed to update task');
     }
   };
 
@@ -108,7 +109,9 @@ const EditTask = () => {
               <select id='dropdown' value={selectedUserId} name='assignToId' onChange={handleChange}>
                 <option value=''>-- Select User --</option>
                 {users.map((user) => (
-                  <option key={user._id} value={user._id}>{user.name}</option>
+                  <option key={user._id} value={user._id}>
+                    {user.name}
+                  </option>
                 ))}
               </select>
             </div>

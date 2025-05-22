@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import '../../styles/users/updateuserprofile.css';
 
 
@@ -26,7 +27,7 @@ const UpdateUserProfile = () => {
 
         setUser(response.data.user);
       } catch (error) {
-        setError('Failed to fetch user profile');
+        toast.error('Failed to fetch user profile');
       }
     };
 
@@ -51,9 +52,9 @@ const UpdateUserProfile = () => {
         },
       });
 
-      alert(response?.data?.message);
+      toast.success(response?.data?.message);
     } catch (error) {
-      alert('Failed to update user profile', error.response?.data || error.message);
+      toast.error('Failed to update user profile', error.response?.data || error.message);
     }
   };
 

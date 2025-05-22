@@ -4,14 +4,22 @@ import Notification from '../models/Notification.js';
 import jwt from 'jsonwebtoken';
 import { configDotenv } from 'dotenv';
 configDotenv();
-import { getCurrentUserRole, getCurrentUserId, ROLE_ADMIN, ROLE_USER } from '../utils/utils.js'
+import { getCurrentUserRole, getCurrentUserId, ROLE_ADMIN, ROLE_USER } from '../utils/utils.js';
 
-
+// Helper function to emit notifications
+const emitNotification = (req, notification) => {
+  const io = req.app.get('io');
+  if (io) {
+    // Emit to specific user
+    io.to(notification.userId.toString()).emit('notification', notification);
+    // Emit to admin room
+    io.to('admin').emit('notification', notification);
+  }
+};
 
 // Assign a tasks
 export const assignTask = async (req, res) => {
   try {
-
     const currentUserId = getCurrentUserId(req);
     const currentUserRole = getCurrentUserRole(req);
 
@@ -23,12 +31,11 @@ export const assignTask = async (req, res) => {
 
     if (currentUserRole === ROLE_ADMIN) {
       if (assignToId == '') {
-        return res.status(400).json({ message: 'Assigned user id is rerquired.' })
+        return res.status(400).json({ message: 'Assigned user id is rerquired.' });
       }
     } else if (currentUserRole === ROLE_USER) {
       assignToId = currentUserId;
     }
-
 
     // Check if task already assign or not
     const user = await User.findById(assignToId);
@@ -47,19 +54,20 @@ export const assignTask = async (req, res) => {
       createdById,
       createdByName,
       status,
-
     });
 
     await task.save();
 
     // Create notification AFTER task is saved
-    await Notification.create({
+    const notification = await Notification.create({
       userId: assignToId,
       taskId: task._id,
-      type: "task-added",
-      message: `A new task "${title}" was assigned to you.`,
-
+      type: 'task-added',
+      message: `A new task "${title}" was assigned to ${assignToName}.`,
     });
+
+    // Emit real-time notification
+    emitNotification(req, notification);
 
     return res.status(200).json({ message: 'Task assign successfully' });
   } catch (error) {
@@ -67,11 +75,9 @@ export const assignTask = async (req, res) => {
   }
 };
 
-
-// Fetch the tasks by id 
+// Fetch the tasks by id
 export const getTaskById = async (req, res) => {
   try {
-
     const currentUserId = getCurrentUserId(req);
     const currentUserRole = getCurrentUserRole(req);
 
@@ -90,11 +96,13 @@ export const getTaskById = async (req, res) => {
       }
     }
     return res.status(200).json({ message: 'Task fetched successfully', task });
-
   } catch (error) {
-    return res.status(500).json({ message: 'Something went wrong when fetch tasks', message: error.message })
+    return res.status(500).json({
+      message: 'Something went wrong when fetch tasks',
+      message: error.message,
+    });
   }
-}
+};
 
 // Fetch tasks assign to a user
 export const getUserTask = async (req, res) => {
@@ -118,12 +126,11 @@ export const getUserTask = async (req, res) => {
   }
 };
 
-
-
 // Fetch all task lists with pagination
 export const getAllTask = async (req, res) => {
   const queryParams = req.query;
 
+  const searchQuery = queryParams.search;
   const title = queryParams.title;
   const description = queryParams.description;
   const userName = queryParams.userName;
@@ -139,14 +146,18 @@ export const getAllTask = async (req, res) => {
 
   let filters = {};
 
-  if (title !== undefined) {
-    filters.title = { $regex: title, $options: "i" };
-  }
-  if (description !== undefined) {
-    filters.description = { $regex: description, $options: "i" };
-  }
-  if (userName !== undefined) {
-    filters.assignToName = { $regex: userName, $options: "i" };
+  if (searchQuery) {
+    filters.$or = [{ title: { $regex: searchQuery, $options: 'i' } }, { description: { $regex: searchQuery, $options: 'i' } }];
+  } else {
+    if (title !== undefined) {
+      filters.title = { $regex: title, $options: 'i' };
+    }
+    if (description !== undefined) {
+      filters.description = { $regex: description, $options: 'i' };
+    }
+    if (userName !== undefined) {
+      filters.assignToName = { $regex: userName, $options: 'i' };
+    }
   }
 
   try {
@@ -157,14 +168,18 @@ export const getAllTask = async (req, res) => {
     if (currentUserRole === ROLE_ADMIN) {
       taskQuery = Task.find(filters);
     } else {
-      taskQuery = Task.find({ assignToId: currentUserId });
+      taskQuery = Task.find({
+        $and: [{ assignToId: currentUserId }, filters],
+      });
     }
 
     const [alltask, total] = await Promise.all([
       taskQuery.skip(skip).limit(limit).sort({ createdAt: -1 }),
       currentUserRole === ROLE_ADMIN
         ? Task.countDocuments(filters)
-        : Task.countDocuments({ assignToId: currentUserId })
+        : Task.countDocuments({
+            $and: [{ assignToId: currentUserId }, filters],
+          }),
     ]);
 
     res.status(200).json({
@@ -172,16 +187,15 @@ export const getAllTask = async (req, res) => {
       alltask,
       total,
       pages: Math.ceil(total / limit),
-      currentPage: page
+      currentPage: page,
     });
   } catch (error) {
     res.status(500).json({
       message: 'Something went wrong when fetching tasks',
-      msg: error.message
+      msg: error.message,
     });
   }
 };
-
 
 // Update the tasks
 export const updateTaskById = async (req, res) => {
@@ -198,7 +212,7 @@ export const updateTaskById = async (req, res) => {
 
     if (currentUserRole !== ROLE_ADMIN) {
       if (newAssignToId !== currentUserId) {
-        return res.status(400).json({ message: 'Cannot update others\' tasks' });
+        return res.status(400).json({ message: "Cannot update others' tasks" });
       } else {
         newAssignToId = currentUserId;
       }
@@ -227,36 +241,35 @@ export const updateTaskById = async (req, res) => {
 
     await task.save();
 
-    // Create a notification for update task
-
+    // Create notifications for updates
     if (req.body.title && req.body.title !== oldValues.title) {
-      await Notification.create({
+      const notification = await Notification.create({
         userId: task.assignToId,
         taskId: task._id,
-        type: "task-updated",
-        message: `Your task title was updated from "${oldValues.title}" to "${task.title}".`
+        type: 'task-updated',
+        message: `Your task title was updated from "${oldValues.title}" to "${task.title}".`,
       });
-    };
+      emitNotification(req, notification);
+    }
+
     if (req.body.description && req.body.description !== oldValues.description) {
-      await Notification.create({
+      const notification = await Notification.create({
         userId: task.assignToId,
         taskId: task._id,
-        type: "task-updated",
-        message: `Your task description was updated from "${oldValues.description}" to "${task.description}".`
+        type: 'task-updated',
+        message: `Your task description was updated from "${oldValues.description}" to "${task.description}".`,
       });
-    };
+    }
 
     if (req.body.status && req.body.status !== oldValues.status) {
-      await Notification.create({
+      const notification = await Notification.create({
         userId: task.assignToId,
         taskId: task._id,
-        type: "task-updated",
-        message: `Your task  "${task.title}" status updated from "${oldValues.status} to "${task.status}".`
+        type: 'task-updated',
+        message: `Your task "${task.title}" status updated from "${oldValues.status}" to "${task.status}".`,
       });
-    };
-
-
-
+      emitNotification(req, notification);
+    }
 
     return res.status(200).json({ message: 'Task updated successfully', task });
   } catch (error) {
@@ -264,45 +277,40 @@ export const updateTaskById = async (req, res) => {
   }
 };
 
-
-// Delete Tasks 
+// Delete Tasks
 export const deleteTask = async (req, res) => {
   try {
     const currentUserId = getCurrentUserId(req);
     const currentUserRole = getCurrentUserRole(req);
     const taskId = req.params.id;
-    const task = await Task.findById(taskId)
+    const task = await Task.findById(taskId);
     if (!task) {
-      return res.status(200).json({ message: 'Task not found' })
+      return res.status(200).json({ message: 'Task not found' });
     }
 
     if (currentUserRole != ROLE_ADMIN) {
-      if (task.assignToId == currentUserId ){
+      if (task.assignToId == currentUserId) {
         return res.status(200).json({ message: 'Task delete successfully' });
       } else {
         return res.status(400).json({ message: 'Can not delete any others tasks' });
       }
     }
 
-    await Task.deleteOne({ _id: taskId })
+    await Task.deleteOne({ _id: taskId });
 
     // Create notification AFTER task is saved
     await Notification.create({
       userId: task.assignToId,
       taskId: task._id,
-      type: "task-deleted",
+      type: 'task-deleted',
       message: `Your task "${task.title}" has been deleted.`,
     });
 
-
-    return res.status(200).json({ message: 'Task delete successfully' })
-
+    return res.status(200).json({ message: 'Task delete successfully' });
   } catch (error) {
     return res.status(500).json({ message: 'Error while delete the task' });
   }
 };
-
-
 
 // Fetch the total no of tasks(number)
 export const totalNoOftask = async (req, res) => {
@@ -313,11 +321,11 @@ export const totalNoOftask = async (req, res) => {
     const taskCount = await Task.countDocuments();
     return res.status(200).json({ totalNoOftask: taskCount });
   } catch (error) {
-    return res.status(500).json({ message: 'Something went wrong when fetching the number of tasks' });
+    return res.status(500).json({
+      message: 'Something went wrong when fetching the number of tasks',
+    });
   }
 };
-
-
 
 // Fetch the total no of tasks of current loged in user
 export const fetchCurrentuserTasksNo = async (req, res) => {
@@ -325,16 +333,18 @@ export const fetchCurrentuserTasksNo = async (req, res) => {
     const currentUserId = getCurrentUserId(req);
 
     // Count the number of tasks assigned to the current user
-    const totalNoTasks = await Task.countDocuments({ assignToId: currentUserId });
+    const totalNoTasks = await Task.countDocuments({
+      assignToId: currentUserId,
+    });
 
     return res.status(200).json({ totalNoTasks });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: 'Something went wrong when fetching the current user number of tasks' });
+    return res.status(500).json({
+      message: 'Something went wrong when fetching the current user number of tasks',
+    });
   }
 };
-
-
 
 // Fetch the tasks assigned to users who are currently logged in
 export const fetchCurrentuserTasks = async (req, res) => {
@@ -345,9 +355,6 @@ export const fetchCurrentuserTasks = async (req, res) => {
     const tasks = await Task.find({ assignToId: currentUserId });
     return res.status(200).json({ message: 'Current user tasks', tasks });
   } catch (error) {
-    return res.status(500).json({ message: 'Failed to fetch the current users tasks ' });
+    return res.status(500).json({ message: 'Failed to fetch the current users tasks ' });
   }
 };
-
-
-

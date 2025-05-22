@@ -1,6 +1,7 @@
 import React from 'react'
 import '../../styles/footer.css'
 import { Link } from 'react-router-dom'
+import { FaLinkedin, FaGithub } from "react-icons/fa";
 const Footer = () => {
   return (
     <>
@@ -17,7 +18,10 @@ const Footer = () => {
                     <div className="footer-section">
                         <h4>Quick Links</h4>
                         <ul className="footer-links">
-                            <li><Link to="/home">Home</Link></li>
+                              <li><Link to="/home">Home</Link></li>
+                              <li><Link to="/dashboard">Dashboard</Link></li>
+                               <li><Link to="/about">About</Link></li>
+                              
                         </ul>
                     </div>
 
@@ -32,17 +36,11 @@ const Footer = () => {
                     <div className="footer-section">
                         <h4>Follow Us</h4>
                         <div className="social-links">
-                            <a href="#" className="social-link">
-                                <i className="fab fa-facebook"></i>
+                            <a href="https://github.com/nitya-gopal-jena/role-based-task-manager" className="social-link">
+                                < FaGithub className="fab fa-github" /> 
                             </a>
-                            <a href="#" className="social-link">
-                                <i className="fab fa-twitter"></i>
-                            </a>
-                            <a href="#" className="social-link">
-                                <i className="fab fa-instagram"></i>
-                            </a>
-                            <a href="#" className="social-link">
-                                <i className="fab fa-linkedin"></i>
+                            <a href="https://www.linkedin.com/in/nitya-gopal-jena" className="social-link">
+                               <FaLinkedin  className="fab fa-linkedin"/>
                             </a>
                         </div>
                     </div>

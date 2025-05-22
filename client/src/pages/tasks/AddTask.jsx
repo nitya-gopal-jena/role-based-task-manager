@@ -1,8 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import { toast } from 'react-toastify';
 import '../../styles/tasks/addtask.css';
+
+// Create axios instance with base URL
+const api = axios.create({
+  baseURL: 'http://localhost:5000',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+// Add request interceptor to add auth token
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
 const AddTask = () => {
   const [error, setError] = useState('');
@@ -22,16 +39,10 @@ const AddTask = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:5000/api/users//users-name', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
+        const response = await api.get('/api/users/users-name');
         setUsers(response.data.users);
       } catch (error) {
-        setError('Failed to fetch users');
+        toast.error('Failed to fetch users');
       }
     };
 
@@ -54,26 +65,16 @@ const AddTask = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem('token');
+      const response = await api.post('/api/tasks', {
+        ...task,
+        assignToId: selectedUserId,
+      });
 
-      const response = await axios.post(
-        'http://localhost:5000/api/tasks',
-        {
-          ...task,
-          assignToId: selectedUserId,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      alert('Task assigned successfully!');
+      toast.success('Task assigned successfully!');
       navigate('/all-tasks-list');
     } catch (error) {
       console.error(error);
-      setError('Failed to add task');
+      toast.error('Failed to add task');
     }
   };
 
@@ -97,9 +98,11 @@ const AddTask = () => {
             <div className='form-group'>
               <label htmlFor='assignToId'>Assign To Name</label>
               <select id='dropdown' value={selectedUserId} name='assignToId' onChange={handleChange}>
-                <option value='select'>-- Select User --</option>
+                <option value=''>-- Select User --</option>
                 {users.map((user) => (
-                  <option value={user._id}>{user.name}</option>
+                  <option key={user._id} value={user._id}>
+                    {user.name}
+                  </option>
                 ))}
               </select>
             </div>

@@ -3,7 +3,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { MdEditSquare } from 'react-icons/md';
 import { MdDelete } from 'react-icons/md';
+import { MdSearch } from 'react-icons/md';
 import { getCurrentUserRole, ROLE_ADMIN, ROLE_USER } from '../../utils/Utils';
+import { toast } from 'react-toastify';
 import '../../styles/tasks/taskslist.css';
 
 const TasksList = ({ showUserTasks = false }) => {
@@ -12,6 +14,7 @@ const TasksList = ({ showUserTasks = false }) => {
   const [totalTask, setTotalTask] = useState(0);
   const [pages, setPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
 
   const TASKS_PER_PAGE = 10;
@@ -36,8 +39,8 @@ const TasksList = ({ showUserTasks = false }) => {
       try {
         const token = localStorage.getItem('token');
         const url = showUserTasks
-          ? `http://localhost:5000/api/tasks/mytasks?page=${currentPage}&limit=${TASKS_PER_PAGE}`
-          : `http://localhost:5000/api/tasks/?page=${currentPage}&limit=${TASKS_PER_PAGE}`;
+          ? `http://localhost:5000/api/tasks/mytasks?page=${currentPage}&limit=${TASKS_PER_PAGE}${searchQuery ? `&search=${searchQuery}` : ''}`
+          : `http://localhost:5000/api/tasks/?page=${currentPage}&limit=${TASKS_PER_PAGE}${searchQuery ? `&search=${searchQuery}` : ''}`;
 
         const response = await axios.get(url, {
           headers: {
@@ -56,7 +59,13 @@ const TasksList = ({ showUserTasks = false }) => {
 
     fetchTotalTasksNo();
     fetchTasksList();
-  }, [currentPage]);
+  }, [currentPage, searchQuery]);
+
+  // Handle search input change
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+    setCurrentPage(1); // Reset to first page when searching
+  };
 
   // Delete the task  from database
   const handleDeleteTask = async (taskId) => {
@@ -71,10 +80,10 @@ const TasksList = ({ showUserTasks = false }) => {
         },
       });
 
-      alert(response.data.message);
-      // window.location.reload();
+      toast.success(response.data.message);
+      window.location.reload();
     } catch (error) {
-      alert('Failed to delete task', error);
+      toast.error('Failed to delete task', error);
     }
   };
 
@@ -105,13 +114,24 @@ const TasksList = ({ showUserTasks = false }) => {
             <h3 className='task-title'>{showUserTasks ? 'My Tasks' : 'All Tasks'}</h3>
             <span className='task-no'>No of tasks: {totalTask}</span>
 
-            {getCurrentUserRole() === ROLE_ADMIN && !showUserTasks && (
-              <button className='add-task-btn' onClick={addTask}>
-                Add Task
-              </button>
-            )}
+            <div className='header-right'>
+              {/* Search Bar */}
+              <div className='search-container'>
+                <div className='search-input-wrapper'>
+                  <MdSearch className='search-icon' />
+                  <input type='text' placeholder='Search tasks...' value={searchQuery} onChange={handleSearchChange} className='search-input' />
+                </div>
+              </div>
+
+              {getCurrentUserRole() === ROLE_ADMIN && !showUserTasks && (
+                <button className='add-task-btn' onClick={addTask}>
+                  Add Task
+                </button>
+              )}
+            </div>
           </div>
           <hr />
+
           {error && <p className='error-message'>{error}</p>}
           <div className='table-wrapper'>
             <table className='task-table'>
@@ -130,7 +150,7 @@ const TasksList = ({ showUserTasks = false }) => {
               <tbody>
                 {taskslist.map((alltask, index) => (
                   <tr key={alltask._id || index}>
-                    <td className='sl-no'>{index + 1}</td>
+                    <td className='sl-no'>{(currentPage - 1) * TASKS_PER_PAGE + index + 1}</td>
                     <td>{alltask.title}</td>
                     <td>{alltask.description}</td>
                     <td>{alltask.assignToName}</td>
