@@ -143,7 +143,7 @@
 - Collaboration
 - Unit & integration testing
 
-## 📬 Contact
+## 📬 Author
 
 Made with ❤️ by [Nitya Gopal Jena](https://github.com/nitya-gopal-jena/role-based-task-manager)  
 📍Odisha, India
