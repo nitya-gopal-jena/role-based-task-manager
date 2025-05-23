@@ -50,7 +50,6 @@
 
 ---
 
-
 ### 🔐 Roles & Permissions
 
 | Role  | Permissions                             |
@@ -61,7 +60,6 @@
 ---
 
 ## 📌 Features & Functionalities (Step-by-Step)
-
 
 ### 1. 🔐 User Authentication & Authorization
 
@@ -135,3 +133,17 @@
 - Mobile-friendly navigation (e.g., hamburger menu)
 
 ---
+
+### 🚧 Future Improvements
+
+- Dark mode support
+- Email notifications
+- File attachments to tasks
+- Activity logs and audit trails
+- Collaboration
+- Unit & integration testing
+
+## 📬 Contact
+
+Made with ❤️ by [Nitya Gopal Jena](https://github.com/nitya-gopal-jena/role-based-task-manager)  
+📍Odisha, India
