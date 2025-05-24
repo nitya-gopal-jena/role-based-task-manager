@@ -58,7 +58,7 @@ app.use('/api/tasks', taskRoutes)
 app.use('/api/notifications', notificationRoutes)
 
 // import port and host from .env file
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 const HOST = process.env.HOST;
 
 server.listen(PORT, () => {
