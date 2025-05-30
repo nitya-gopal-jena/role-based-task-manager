@@ -147,5 +147,5 @@
 
 ## 📬 Author
 
-Made by : [Nitya Gopal Jena](https://github.com/nitya-gopal-jena/role-based-task-manager)  
+Made by : [Nitya Gopal Jena](https://www.linkedin.com/in/nitya-gopal-jena/)  
 📍Odisha, India
