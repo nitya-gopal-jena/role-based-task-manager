@@ -2,6 +2,8 @@
 
 ## A task management web application built using **Vite + React** with **role-based authentication**
 
+### Live Preview : https://role-based-task-manager-client.vercel.app/
+
 ## 🚀 Features
 
 - 🔐 **Role-Based Authentication** (Admin, User)
